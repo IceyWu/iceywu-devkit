@@ -1,0 +1,30 @@
+{
+  "name": "iceywu-devkit",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.30.2",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=10.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --filter \"@iceywu/*\" build",
+    "clean": "pnpm -r --filter \"@iceywu/*\" clean",
+    "dev": "pnpm -r --parallel --filter \"@iceywu/*\" dev",
+    "format": "ultracite fix",
+    "format:check": "biome check . --assist-enabled=false --javascript-linter-enabled=false --json-linter-enabled=false --css-linter-enabled=false --graphql-linter-enabled=false --html-linter-enabled=false --grit-linter-enabled=false",
+    "typecheck": "pnpm -r --filter \"@iceywu/*\" typecheck",
+    "test": "pnpm -r --if-present --filter \"@iceywu/*\" test",
+    "check": "pnpm run validate:skills && pnpm run typecheck",
+    "validate:skills": "node ./tools/validate-skills.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.4.6",
+    "@types/node": "^24.5.2",
+    "rimraf": "^6.0.1",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.2",
+    "ultracite": "^7.2.5",
+    "vitest": "^3.2.4"
+  }
+}

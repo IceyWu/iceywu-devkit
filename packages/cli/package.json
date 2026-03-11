@@ -1,0 +1,43 @@
+{
+  "name": "@iceywu/cli",
+  "version": "0.0.7",
+  "description": "提供多个情景下的项目模板,快捷搭建项目🎉",
+  "type": "module",
+  "author": "IceyWu <https://github.com/IceyWu/>",
+  "repository": {
+    "url": "https://github.com/IceyWu/icey-cli"
+  },
+  "license": "MIT",
+  "bin": {
+    "icey": "./dist/index.js",
+    "icey-cli": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "clean": "rimraf dist",
+    "dev": "tsup src/index.ts --format esm --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "@iceywu/utils": "workspace:*",
+    "boxen": "^8.0.1",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "dayjs": "^1.11.12",
+    "execa": "^9.6.0",
+    "semver": "^7.6.3",
+    "table": "^6.8.2"
+  },
+  "devDependencies": {
+    "@types/semver": "^7.7.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

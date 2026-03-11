@@ -1,0 +1,6 @@
+{
+  "extends": ["ultracite/biome/core"],
+  "files": {
+    "includes": ["!**/dist", "!**/coverage", "!**/node_modules"]
+  }
+}
