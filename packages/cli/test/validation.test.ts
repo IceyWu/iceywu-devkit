@@ -39,7 +39,7 @@ describe("validateAppName", () => {
 });
 
 describe("formatTime", () => {
-  it("formats ISO time values", () => {
+  it("formats ISO time values in Asia/Shanghai timezone", () => {
     expect(formatTime("2023-01-01T00:00:00Z")).toBe("2023-01-01 08:00:00");
   });
 
