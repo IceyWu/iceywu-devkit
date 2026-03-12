@@ -3,4 +3,3 @@ dist
 .turbo
 .DS_Store
 coverage
-pnpm-lock.yaml
