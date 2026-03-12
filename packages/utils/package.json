@@ -1,16 +1,17 @@
 {
   "name": "@iceywu/utils",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "description": "Collection of common JavaScript / TypeScript utils",
   "type": "module",
   "author": "Icey Wu <3128006406@qq.com>",
-  "homepage": "https://github.com/iceywu/utils#readme",
+  "homepage": "https://github.com/IceyWu/iceywu-devkit/tree/main/packages/utils#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/iceywu/utils.git"
+    "url": "git+https://github.com/IceyWu/iceywu-devkit.git",
+    "directory": "packages/utils"
   },
   "bugs": {
-    "url": "https://github.com/iceywu/utils/issues"
+    "url": "https://github.com/IceyWu/iceywu-devkit/issues"
   },
   "license": "MIT",
   "sideEffects": false,
@@ -19,9 +20,14 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "files": [

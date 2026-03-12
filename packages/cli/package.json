@@ -1,11 +1,17 @@
 {
   "name": "@iceywu/cli",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "提供多个情景下的项目模板,快捷搭建项目🎉",
   "type": "module",
   "author": "IceyWu <https://github.com/IceyWu/>",
+  "homepage": "https://github.com/IceyWu/iceywu-devkit/tree/main/packages/cli#readme",
   "repository": {
-    "url": "https://github.com/IceyWu/icey-cli"
+    "type": "git",
+    "url": "git+https://github.com/IceyWu/iceywu-devkit.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/IceyWu/iceywu-devkit/issues"
   },
   "license": "MIT",
   "bin": {

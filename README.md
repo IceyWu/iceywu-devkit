@@ -68,6 +68,47 @@ pnpm build
 pnpm check
 ```
 
+## Release Workflow
+
+This repository uses Changesets for package versioning and publishing.
+
+How changelogs are generated:
+
+- Changesets only generates package changelogs after you create at least one changeset entry and run `pnpm version-packages`.
+- When a package version changes, Changesets writes or updates the package-level `CHANGELOG.md` automatically.
+
+Minimal release flow:
+
+Create a changeset for any change that should ship to npm:
+
+```bash
+pnpm changeset
+```
+
+When you are ready to prepare a release, update package versions and changelogs:
+
+```bash
+pnpm version-packages
+```
+
+Run the full release verification locally before publishing:
+
+```bash
+pnpm release:check
+```
+
+Publish all unpublished workspace packages to npm:
+
+```bash
+pnpm release
+```
+
+GitHub automation:
+
+- `.github/workflows/release.yml` uses Changesets to open or update a version PR on `main`.
+- After the version PR is merged, the same workflow publishes unpublished packages to npm.
+- Set the repository secret `NPM_TOKEN` before enabling automated publish.
+
 ## Code Style
 
 This repository uses Ultracite with Biome as the default formatting toolchain.
