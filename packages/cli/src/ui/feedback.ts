@@ -1,4 +1,4 @@
-import * as p from "@clack/prompts";
+import { spinner } from "@clack/prompts";
 import boxen from "boxen";
 import chalk from "chalk";
 import { table } from "table";
@@ -60,7 +60,7 @@ export async function withSpinner<T>(
   task: () => Promise<T>,
   successMessage: string
 ) {
-  const status = p.spinner();
+  const status = spinner();
   status.start(message);
 
   try {

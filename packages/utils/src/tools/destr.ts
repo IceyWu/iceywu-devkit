@@ -2,7 +2,6 @@ const suspectProtoRx =
   /"(?:_|\\u0{2}5[Ff]){2}(?:p|\\u0{2}70)(?:r|\\u0{2}72)(?:o|\\u0{2}6[Ff])(?:t|\\u0{2}74)(?:o|\\u0{2}6[Ff])(?:_|\\u0{2}5[Ff]){2}"\s*:/;
 const suspectConstructorRx =
   /"(?:c|\\u0063)(?:o|\\u006[Ff])(?:n|\\u006[Ee])(?:s|\\u0073)(?:t|\\u0074)(?:r|\\u0072)(?:u|\\u0075)(?:c|\\u0063)(?:t|\\u0074)(?:o|\\u006[Ff])(?:r|\\u0072)"\s*:/;
-// eslint-disable-next-line
 const JsonSigRx = /^\s*["[{]|^\s*-?\d{1,16}(\.\d{1,17})?(E[+-]?\d+)?\s*$/i;
 
 function jsonParseTransform(key: string, value: any): any {
@@ -27,20 +26,6 @@ export interface Options {
   customVal?: any;
   strict?: boolean;
 }
-/**
- * @description A faster, secure and convenient alternative for `JSON.parse`
- * @param  value The value to be parsed
- * @param  options The options
- * @returns parsed value
- * @category tools
- * @example
- * ```
- * // Returns "[foo"
- * destr("[foo");
- * // Return is not valid JSON
- * Json.parse("[foo")
- * ```
- */
 export function destr<T = unknown>(value: any, options: Options = {}): T {
   if (typeof value !== "string") {
     return options.customVal === undefined ? value : (options.customVal as T);
@@ -107,38 +92,11 @@ export function destr<T = unknown>(value: any, options: Options = {}): T {
     return value as T;
   }
 }
-/**
- * @description A faster, secure and convenient alternative for `JSON.parse`
- * @param  value The value to be parsed
- * @param  options The options
- * @returns parsed value
- * @category tools
- * @example
- * ```
- * // Throws an error
- * safeDestr("[foo");
- * // Return is not valid JSON
- * Json.parse("[foo")
- * ```
- */
+
 export function safeDestr<T = unknown>(value: any, options: Options = {}): T {
   return destr<T>(value, { ...options, strict: true });
 }
 
-/**
- * @description A faster, secure and convenient alternative for `JSON.parse`
- * @param  value The value to be parsed
- * @param  options The options
- * @returns parsed value
- * @category tools
- * @example
- * ```
- * // Returns "defaultVal"
- * customDestr<string>("[foo", { customVal: "defaultVal" });
- * // Return is not valid JSON
- * Json.parse("[foo")
- * ```
- */
 export function customDestr<T = unknown>(value: any, options: Options = {}): T {
   if (options.customVal === undefined) {
     return destr<T>(value, { ...options, customVal: null });

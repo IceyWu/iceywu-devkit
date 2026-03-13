@@ -2,5 +2,73 @@
   "extends": ["ultracite/biome/core"],
   "files": {
     "includes": ["!**/dist", "!**/coverage", "!**/node_modules"]
-  }
+  },
+  "overrides": [
+    {
+      "includes": [
+        "packages/utils/src/index.ts",
+        "packages/utils/src/promise.ts",
+        "packages/utils/src/is/index.ts",
+        "packages/utils/src/shared/index.ts",
+        "packages/utils/src/array/index.ts",
+        "packages/utils/src/object/index.ts",
+        "packages/utils/src/tools/index.ts",
+        "packages/utils/src/log/index.ts"
+      ],
+      "linter": {
+        "rules": {
+          "performance": {
+            "noBarrelFile": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [
+        "packages/utils/src/array/**/*.ts",
+        "packages/utils/src/asyncTask/**/*.ts",
+        "packages/utils/src/download/**/*.ts",
+        "packages/utils/src/lodash-lite/**/*.ts",
+        "packages/utils/src/log/**/*.ts",
+        "packages/utils/src/network/**/*.ts",
+        "packages/utils/src/object/**/*.ts",
+        "packages/utils/src/shared/base.ts",
+        "packages/utils/src/tools/**/*.ts",
+        "packages/utils/src/to/toTry.ts",
+        "packages/utils/src/to/toPro.ts",
+        "packages/utils/src/public-api.test.ts"
+      ],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "noBannedTypes": "off",
+            "noExcessiveCognitiveComplexity": "off",
+            "noForEach": "off",
+            "useOptionalChain": "off"
+          },
+          "performance": {
+            "noAccumulatingSpread": "off"
+          },
+          "style": {
+            "noExportedImports": "off",
+            "noNonNullAssertion": "off",
+            "noNestedTernary": "off",
+            "useFilenamingConvention": "off",
+            "useConsistentArrayType": "off",
+            "useDefaultParameterLast": "off",
+            "useForOf": "off"
+          },
+          "suspicious": {
+            "noBitwiseOperators": "off",
+            "noEmptyBlockStatements": "off",
+            "noEvolvingTypes": "off",
+            "noExplicitAny": "off",
+            "noImplicitAnyLet": "off",
+            "noShadowRestrictedNames": "off",
+            "useAwait": "off"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "@iceywu/utils",
   "version": "0.0.52",
-  "description": "Collection of common JavaScript / TypeScript utils",
+  "description": "A public TypeScript utility library with curated root exports and explicit module subpaths",
   "type": "module",
   "author": "Icey Wu <3128006406@qq.com>",
   "homepage": "https://github.com/IceyWu/iceywu-devkit/tree/main/packages/utils#readme",
@@ -18,28 +18,9 @@
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      },
-      "require": {
-        "types": "./dist/index.d.cts",
-        "default": "./dist/index.cjs"
-      }
-    }
-  },
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "tsup src/index.ts --format esm,cjs --dts",
-    "clean": "rimraf dist",
-    "dev": "tsup src/index.ts --format esm,cjs --dts --watch",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "vitest run"
-  },
   "dependencies": {
     "debounce": "^2.2.0",
     "lodash": "^4.17.21"
@@ -50,5 +31,161 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "typescript",
+    "utilities",
+    "promise",
+    "type-guards"
+  ],
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./promise": {
+      "import": {
+        "types": "./dist/promise.d.ts",
+        "default": "./dist/promise.js"
+      },
+      "require": {
+        "types": "./dist/promise.d.cts",
+        "default": "./dist/promise.cjs"
+      }
+    },
+    "./is": {
+      "import": {
+        "types": "./dist/is/index.d.ts",
+        "default": "./dist/is/index.js"
+      },
+      "require": {
+        "types": "./dist/is/index.d.cts",
+        "default": "./dist/is/index.cjs"
+      }
+    },
+    "./shared": {
+      "import": {
+        "types": "./dist/shared/index.d.ts",
+        "default": "./dist/shared/index.js"
+      },
+      "require": {
+        "types": "./dist/shared/index.d.cts",
+        "default": "./dist/shared/index.cjs"
+      }
+    },
+    "./types": {
+      "import": {
+        "types": "./dist/types.d.ts",
+        "default": "./dist/types.js"
+      },
+      "require": {
+        "types": "./dist/types.d.cts",
+        "default": "./dist/types.cjs"
+      }
+    },
+    "./array": {
+      "import": {
+        "types": "./dist/array/index.d.ts",
+        "default": "./dist/array/index.js"
+      },
+      "require": {
+        "types": "./dist/array/index.d.cts",
+        "default": "./dist/array/index.cjs"
+      }
+    },
+    "./async-task": {
+      "import": {
+        "types": "./dist/asyncTask/index.d.ts",
+        "default": "./dist/asyncTask/index.js"
+      },
+      "require": {
+        "types": "./dist/asyncTask/index.d.cts",
+        "default": "./dist/asyncTask/index.cjs"
+      }
+    },
+    "./download": {
+      "import": {
+        "types": "./dist/download/index.d.ts",
+        "default": "./dist/download/index.js"
+      },
+      "require": {
+        "types": "./dist/download/index.d.cts",
+        "default": "./dist/download/index.cjs"
+      }
+    },
+    "./lodash-lite": {
+      "import": {
+        "types": "./dist/lodash-lite/index.d.ts",
+        "default": "./dist/lodash-lite/index.js"
+      },
+      "require": {
+        "types": "./dist/lodash-lite/index.d.cts",
+        "default": "./dist/lodash-lite/index.cjs"
+      }
+    },
+    "./log": {
+      "import": {
+        "types": "./dist/log/index.d.ts",
+        "default": "./dist/log/index.js"
+      },
+      "require": {
+        "types": "./dist/log/index.d.cts",
+        "default": "./dist/log/index.cjs"
+      }
+    },
+    "./network": {
+      "import": {
+        "types": "./dist/network/index.d.ts",
+        "default": "./dist/network/index.js"
+      },
+      "require": {
+        "types": "./dist/network/index.d.cts",
+        "default": "./dist/network/index.cjs"
+      }
+    },
+    "./object": {
+      "import": {
+        "types": "./dist/object/index.d.ts",
+        "default": "./dist/object/index.js"
+      },
+      "require": {
+        "types": "./dist/object/index.d.cts",
+        "default": "./dist/object/index.cjs"
+      }
+    },
+    "./tools": {
+      "import": {
+        "types": "./dist/tools/index.d.ts",
+        "default": "./dist/tools/index.js"
+      },
+      "require": {
+        "types": "./dist/tools/index.d.cts",
+        "default": "./dist/tools/index.cjs"
+      }
+    },
+    "./to-pro": {
+      "import": {
+        "types": "./dist/to/toPro.d.ts",
+        "default": "./dist/to/toPro.js"
+      },
+      "require": {
+        "types": "./dist/to/toPro.d.cts",
+        "default": "./dist/to/toPro.cjs"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/promise.ts src/is/index.ts src/shared/index.ts src/types.ts src/array/index.ts src/asyncTask/index.ts src/download/index.ts src/lodash-lite/index.ts src/log/index.ts src/network/index.ts src/object/index.ts src/tools/index.ts src/to/toPro.ts --format esm,cjs --dts --clean",
+    "check:package": "pnpm run build && node ./scripts/verify-exports.mjs",
+    "clean": "rimraf dist",
+    "dev": "tsup src/index.ts src/promise.ts src/is/index.ts src/shared/index.ts src/types.ts src/array/index.ts src/asyncTask/index.ts src/download/index.ts src/lodash-lite/index.ts src/log/index.ts src/network/index.ts src/object/index.ts src/tools/index.ts src/to/toPro.ts --format esm,cjs --dts --watch",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
   }
 }

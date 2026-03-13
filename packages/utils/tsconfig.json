@@ -3,6 +3,24 @@
   "compilerOptions": {
     "rootDir": "src"
   },
-  "include": ["src"],
+  "include": [
+    "src/index.ts",
+    "src/promise.ts",
+    "src/types.ts",
+    "src/is/**/*.ts",
+    "src/shared/**/*.ts",
+    "src/array/**/*.ts",
+    "src/asyncTask/**/*.ts",
+    "src/download/**/*.ts",
+    "src/lodash-lite/**/*.ts",
+    "src/log/**/*.ts",
+    "src/network/**/*.ts",
+    "src/object/**/*.ts",
+    "src/tools/**/*.ts",
+    "src/to/index.ts",
+    "src/to/toTry.ts",
+    "src/to/toPro.ts",
+    "src/lodash-subpaths.d.ts"
+  ],
   "exclude": ["src/**/*.test.ts"]
 }

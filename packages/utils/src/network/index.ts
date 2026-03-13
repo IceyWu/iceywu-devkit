@@ -1,3 +1,13 @@
+/**
+ * @description 读取流式响应内容，并在每次收到分片时回调
+ * @param content Response
+ * @param callback 分片回调
+ * @returns Promise<string>
+ * @example
+ * ```
+ * await getStreamResponse(response, (chunk) => console.log(chunk));
+ * ```
+ */
 export function getStreamResponse(
   content: Response,
   callback: (chunk: string) => void
@@ -31,6 +41,10 @@ export function getStreamResponse(
 const url =
   "https://test.wktest.cn:3001/api/topic?page=1&size=100&sort=desc,createdAt";
 
+/**
+ * @description 示例：直接请求固定地址并打印响应流
+ * @returns Promise<void>
+ */
 export async function getResponse() {
   const resp = await fetch(url, {
     method: "GET",

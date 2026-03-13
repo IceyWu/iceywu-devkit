@@ -1,22 +1,19 @@
-/**
- * @description 基于Promise.try()的错误捕获封装，模拟to()函数的行为
- * @param {Function} action 要执行的异步或者同步操作
- * @param {...any} args 其他参数
- * @return {[any, any]} [result, error] 结果和错误
- */
-export async function toTry(action: any, ...args: any[]) {
-  const res = [undefined, undefined];
-  await Promise.resolve()
-    .then(() => action(...args))
-    .then((result: any) => {
-      res[0] = result;
-    })
-    .catch((error: any) => {
-      res[1] = error;
-    });
-  return res;
-}
+type ActionResult<T, E = Error> = [null, T] | [E, undefined];
 
-export default {
-  toTry,
-};
+/**
+ * @description 捕获同步或异步函数抛出的错误，并返回与 to() 一致的元组结果
+ * @param action 要执行的同步或异步操作
+ * @param args 其他参数
+ * @return [error, result]
+ */
+export async function toTry<T, Args extends unknown[], E = Error>(
+  action: (...args: Args) => T | Promise<T>,
+  ...args: Args
+): Promise<ActionResult<T, E>> {
+  try {
+    const result = await action(...args);
+    return [null, result];
+  } catch (error) {
+    return [error as E, undefined];
+  }
+}

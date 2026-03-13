@@ -1,7 +1,4 @@
 export interface DownloadFileReturn {
-  // onSuccess: any;
-  // onProcess: any;
-  // onError: any;
   stop: () => void;
 }
 export interface RequestHeader {
@@ -10,11 +7,16 @@ export interface RequestHeader {
 export interface DownloadFileOptions {
   header: RequestHeader[] | undefined;
 }
+
 /**
+ * @description 创建浏览器下载链接并触发下载
  * @param blob file blob(文件blob)
- * @fileName file name(文件名)
+ * @param fileName file name(文件名)
  * @return void
- * @description create download file(创建下载文件)
+ * @example
+ * ```
+ * createDownload(new Blob(["hello"]), "hello.txt");
+ * ```
  */
 export function createDownload(blob: Blob, fileName: string) {
   if (!(blob && fileName)) {
@@ -36,15 +38,18 @@ export function createDownload(blob: Blob, fileName: string) {
 }
 
 /**
- * @description download file from url(下载文件)
+ * @description 根据 url 下载文件，并暴露进度、成功和失败回调
  * @param url file url(文件地址)
  * @param fileName file name(文件名)
  * @param callbackList { onSuccess:下载成功 onProcess:下载进度 onError:下载失败 }
- * @param callbackList.onSuccess 下载成功回调
- * @param callbackList.onProcess 下载进度回调
- * @param callbackList.onError 下载失败回调
  * @param option request header(请求头)
  * @returns { stop } stop:停止下载
+ * @example
+ * ```
+ * const { stop } = downloadFile("/demo.pdf", "demo.pdf", {
+ *   onSuccess: () => console.log("done"),
+ * });
+ * ```
  */
 export function downloadFile(
   url: string,

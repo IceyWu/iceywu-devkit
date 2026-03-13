@@ -30,7 +30,9 @@ const invalidSkills = skillDirs.filter(
 
 if (invalidSkills.length > 0) {
   console.error("Each skill directory must include SKILL.md");
-  invalidSkills.forEach((dir) => console.error(`- ${dir}`));
+  for (const dir of invalidSkills) {
+    console.error(`- ${dir}`);
+  }
   process.exit(1);
 }
 

@@ -11,25 +11,27 @@ export type Nullable<T> = T | null | undefined;
 /**
  * Array, or not yet
  */
-export type Arrayable<T> = T | Array<T>;
+export type Arrayable<T> = T | T[];
 
 /**
  * Function
  */
-export type Fn<T = void> = () => T;
+export type Fn<Args extends unknown[] = [], Result = void> = (
+  ...args: Args
+) => Result;
 
 /**
  * Constructor
  */
-export type Constructor<T = void> = new (...args: any[]) => T;
+export type Constructor<T = object, Args extends unknown[] = unknown[]> = new (
+  ...args: Args
+) => T;
 
 export type DeepPartial<T> = { [P in keyof T]?: DeepPartial<T[P]> };
 
-export type EventsMap = Record<string, any>;
+export type EventsMap = Record<string, (...args: unknown[]) => unknown>;
 
-export interface DefaultEvents extends EventsMap {
-  [event: string]: (...args: any) => void;
-}
+export interface DefaultEvents extends EventsMap {}
 
 export type Unsubscribe = () => void;
 

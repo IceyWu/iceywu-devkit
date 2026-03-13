@@ -232,7 +232,9 @@ export interface DataInfoOptions {
  */
 export function listFill(dataInfo: DataInfoOptions): any[] {
   const { base = [], fillData = {}, isIncludeBase = false, num = 0 } = dataInfo;
-  const mapper = isFunction(fillData) ? fillData : () => fillData;
+  const mapper = (isFunction(fillData) ? fillData : () => fillData) as (
+    index: number
+  ) => any;
   const baseNum = base.length >= num ? base.length : num;
   const createNum = baseNum - 1 >= 0 ? baseNum - 1 : 0;
   return list(createNum).map((_, index) => {

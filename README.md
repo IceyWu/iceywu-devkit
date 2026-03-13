@@ -49,6 +49,8 @@ Each skill is self-contained and only needs a `SKILL.md` file. Optional helper s
 ## Migration Status
 
 - `@iceywu/utils` has been migrated into `packages/utils` and now builds and tests inside the workspace.
+- the utils package now publishes a curated root API plus explicit subpath exports for legacy utility domains.
+- the legacy `utils/src/browser/index.ts` file remains a non-published draft reference because it was never part of the original public export surface.
 - `@iceywu/cli` has been migrated into `packages/cli`, then refactored into a TypeScript layered CLI architecture.
 - the CLI now uses `@clack/prompts` for interaction and `execa` for subprocess execution.
 - the CLI source tree is now fully TypeScript-based.

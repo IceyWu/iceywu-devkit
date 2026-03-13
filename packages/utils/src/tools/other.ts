@@ -1,10 +1,10 @@
 import debounce from "debounce";
+
 /**
  * @description 获取文件类型
  * @param url 文件地址
  * @returns { image, video, pdf, document, audio, zip, excel, ppt, code, executable, presentation, other }
  */
-
 export function getFileType(url: string): string {
   if (!url) {
     return "other";
@@ -97,6 +97,10 @@ export function randomString(length: number): string {
  * @param func 函数
  * @param delay 延迟时间
  * @returns { Function } Function:节流函数
+ * @example
+ * ```
+ * const handler = throttle(() => console.log("tick"), 200);
+ * ```
  */
 export function throttle(func: Function, delay: number): Function {
   let timer: NodeJS.Timeout;

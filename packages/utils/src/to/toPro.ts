@@ -9,25 +9,14 @@ interface ValItem {
 
 /**
  * @description 简化数据请求
- * @param  promise 请求
- * @param  valList 自定义配置项
+ * @param promise 请求
+ * @param valList 自定义配置项
  * @returns 获取列表
- * @category to
  * @example
  * ```
- *  //自定义配置项
- *   const valList = [
- *  {
- *    keys: ["code", "result.content"],
- *    valFormat: (valList: any) => {
- *      const [code, content] = valList;
- *      return code === 0 ? content : [];
- *    },
- *  },
- * ];
- * const [err, res] = await toPro(testFunc(), valList);
- * const [dataList, timestamp, code] = res;
- *
+ * const [err, res] = await toPro(fetchUser(), [
+ *   { keys: ["data", "profile"] },
+ * ]);
  * ```
  */
 export async function toPro<T, _any>(promise: Promise<T>, valList?: ValItem[]) {

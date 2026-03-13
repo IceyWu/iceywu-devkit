@@ -28,29 +28,14 @@ export interface GetAsyncTaskReturn {
  * @returns { task, stop, start } task:异步任务 stop:停止异步任务 start:开始异步任务
  * @example
  * ```
- * // rules:判断条件
- * // 1.请求接口放回数据后，判断返回数据中code为200，且data.complete为true
- * // {
- * //  code: 200,
- * //  data: {
- * //complete: true
- * //  }
- * // }
- *const rules = [
- *      {
- *         keys: "code",
- *         val: 200,
- *      },
- *      {
- *         keys: ["data", "complete"],
- *         val: true,
- *        // 优先级高于val
- *        predicate: (val) => val === true,
- *      }
- *    ];
- *    const params = {};
- *    const { task, stop, start } = getAsyncTask(asyncTaskApi, { rules, params, asyncTime:1000, maxTimes:-1, autoStart: false });
- *    start(); // 手动开始任务
+ * const { task, start } = getAsyncTask(fetchJob, {
+ *   autoStart: false,
+ *   asyncTime: 1000,
+ *   rules: [{ keys: ["data", "done"], val: true }],
+ * });
+ *
+ * start();
+ * const result = await task;
  * ```
  */
 export function getAsyncTask(
@@ -60,7 +45,7 @@ export function getAsyncTask(
   let timer: string | number | NodeJS.Timeout | undefined;
   let index = 0;
   let stopFlag = false;
-  let started = false; // 标记是否已经开始
+  let started = false;
   const {
     rules = [],
     asyncTime = 1000,
@@ -71,7 +56,6 @@ export function getAsyncTask(
   const getParams = () =>
     typeof option.params === "function" ? option.params() : option.params;
 
-  // 提取重复逻辑到一个独立函数
   const executeTask = async (resolve: (value: any) => void) => {
     const res = await request(getParams());
     if (!res) {
@@ -96,7 +80,7 @@ export function getAsyncTask(
     const startTask = () => {
       if (!started) {
         started = true;
-        stopFlag = false; // 重置 stopFlag
+        stopFlag = false;
         executeTask(resolve);
       }
     };
@@ -137,19 +121,18 @@ export class AggregateError extends Error {
     this.errors = errors;
   }
 }
+
 /**
- * Functionally similar to Promise.all or Promise.allSettled. If any
- * errors are thrown, all errors are gathered and thrown in an
- * AggregateError.
- * @description like Promise.all or Promise.allSettled functions
- * @param promises promise 列表
- * @returns res
+ * @description 类似 Promise.all，但会汇总所有异常并抛出 AggregateError
+ * @param promises promise 列表或对象
+ * @returns 聚合后的结果
  * @example
- * const { user } = await all({
- *   user: api.users.create(...),
- *   bucket: s3.buckets.create(...),
- *   message: slack.customerSuccessChannel.sendMessage(...)
- * })
+ * ```
+ * const { user, posts } = await all({
+ *   user: getUser(),
+ *   posts: getPosts(),
+ * });
+ * ```
  */
 export async function all<T extends Record<string, Promise<any>>>(
   promises: T
@@ -190,9 +173,13 @@ export async function all<
 }
 
 /**
- * @description Async wait（异步等待）
+ * @description 异步等待指定毫秒数
  * @param milliseconds 等待时间
  * @returns Promise
+ * @example
+ * ```
+ * await sleep(500);
+ * ```
  */
 export function sleep(milliseconds: number) {
   return new Promise((res) => setTimeout(res, milliseconds));

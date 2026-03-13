@@ -1,9 +1,9 @@
-import * as p from "@clack/prompts";
+import { cancel, confirm, isCancel, select, text } from "@clack/prompts";
 import type { ProjectPromptField, TemplateChoice } from "../types/index.js";
 
 function unwrapCancel<T>(value: T | symbol, message = "操作已取消"): T {
-  if (p.isCancel(value)) {
-    p.cancel(message);
+  if (isCancel(value)) {
+    cancel(message);
     process.exit(0);
   }
 
@@ -11,7 +11,7 @@ function unwrapCancel<T>(value: T | symbol, message = "操作已取消"): T {
 }
 
 export async function selectTemplate(options: TemplateChoice[]) {
-  const answer = await p.select({
+  const answer = await select({
     message: "请选择项目模板：",
     options,
   });
@@ -20,7 +20,7 @@ export async function selectTemplate(options: TemplateChoice[]) {
 }
 
 export async function confirmOverwrite(projectName: string) {
-  const answer = await p.confirm({
+  const answer = await confirm({
     message: `已存在同名文件夹 ${projectName}，是否覆盖？`,
     active: "覆盖",
     inactive: "取消",
@@ -33,7 +33,7 @@ export async function confirmOverwrite(projectName: string) {
 export async function promptProjectName(
   validate: (value: string) => string | undefined
 ) {
-  const answer = await p.text({
+  const answer = await text({
     message: "请输入项目名称：",
     placeholder: "my-project",
     validate,
@@ -53,7 +53,7 @@ export async function promptProjectMetadata(
       continue;
     }
 
-    const answer = await p.text({
+    const answer = await text({
       message: field.message,
       defaultValue:
         field.name === "description" ? `A project named ${projectName}` : "",

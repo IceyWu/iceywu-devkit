@@ -1,22 +1,27 @@
 import { toTypeString } from "../shared/base";
 
+type AnyFunction = (...args: never[]) => unknown;
+
 /**
  * @category Is
  */
-export const isDef = <T = any>(val?: T): val is T => typeof val !== "undefined";
+export const isDef = <T>(val: T | undefined): val is T =>
+  typeof val !== "undefined";
 /**
  * @category Is
  */
-export const isBoolean = (val: any): val is boolean => typeof val === "boolean";
+export const isBoolean = (val: unknown): val is boolean =>
+  typeof val === "boolean";
 /**
  * @category Is
  */
-export const isFunction = <T extends Function>(val: any): val is T =>
+export const isFunction = <T extends AnyFunction>(val: unknown): val is T =>
   typeof val === "function";
 /**
  * @category Is
  */
-export const isNumber = (val: any): val is number => typeof val === "number";
+export const isNumber = (val: unknown): val is number =>
+  typeof val === "number";
 /**
  * @category Is
  */
@@ -25,7 +30,7 @@ export const isString = (val: unknown): val is string =>
 /**
  * @category Is
  */
-export function isObject(val: unknown): val is Record<any, any> {
+export function isObject(val: unknown): val is Record<PropertyKey, unknown> {
   return val !== null && typeof val === "object";
 }
 /**
@@ -41,13 +46,13 @@ export const isArray = Array.isArray;
 /**
  * @category Is
  */
-export function isMap(val: unknown): val is Map<any, any> {
+export function isMap(val: unknown): val is Map<unknown, unknown> {
   return toTypeString(val) === "[object Map]";
 }
 /**
  * @category Is
  */
-export function isSet(val: unknown): val is Set<any> {
+export function isSet(val: unknown): val is Set<unknown> {
   return toTypeString(val) === "[object Set]";
 }
 /**
@@ -66,17 +71,17 @@ export const isSymbol = (val: unknown): val is symbol =>
 /**
  * @category Is
  */
-export const isPromise = <T = any>(val: unknown): val is Promise<T> =>
+export const isPromise = <T = unknown>(val: unknown): val is Promise<T> =>
   isObject(val) && isFunction(val.then) && isFunction(val.catch);
 /**
  * @category Is
  */
-export const isValue = (val: any): val is boolean =>
+export const isValue = (val: unknown): val is NonNullable<unknown> =>
   val !== undefined && val !== null;
 /**
  * @category Is
  */
-export function isEmpty(val: any): val is boolean {
+export function isEmpty(val: unknown): boolean {
   return (
     val === null ||
     val === undefined ||
@@ -85,22 +90,3 @@ export function isEmpty(val: any): val is boolean {
     (isString(val) && val.trim().length <= 0)
   );
 }
-
-export default {
-  isDef,
-  isBoolean,
-  isFunction,
-  isNumber,
-  isString,
-  isObject,
-  isPlainObject,
-  isArray,
-  isMap,
-  isSet,
-  isDate,
-  isRegExp,
-  isSymbol,
-  isPromise,
-  isValue,
-  isEmpty,
-};

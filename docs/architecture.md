@@ -13,7 +13,8 @@ This gives a single dependency graph and release surface for code, while keeping
 - Pure utility library
 - No CLI logic
 - Can be consumed by external apps and by `@iceywu/cli`
-- Prefer stable exports from a single `src/index.ts`
+- Keep the root entry curated and stable
+- Publish larger utility domains through explicit subpath exports when that improves clarity and tree-shaking
 
 ### `@iceywu/cli`
 
@@ -43,6 +44,7 @@ This gives a single dependency graph and release surface for code, while keeping
 - Migrate current `utils` source into `packages/utils`
 - Migrate current `icey-cli` source into `packages/cli`
 - Replace published dependency on `@iceywu/utils` with local workspace dependency
+- Preserve the publishable legacy utility domains while leaving non-exported draft modules out of the public package surface
 - Completed
 
 ### Phase 3
@@ -57,6 +59,7 @@ This gives a single dependency graph and release surface for code, while keeping
 - `pnpm check` succeeds for skills validation and package validation
 - `pnpm build` succeeds for both `@iceywu/utils` and `@iceywu/cli`
 - `pnpm test` succeeds for both migrated packages
+- `@iceywu/utils` verifies its built export map against actual artifacts and runtime imports
 
 ## What Not To Keep
 

@@ -5,11 +5,7 @@ import { isArray, isDate, isEmpty, isObject, isRegExp } from "../is";
 import type { DeepPartial } from "../types";
 
 /**
- * A deep clone method to ensure that circular references are avoided.
- * 一个深度克隆方法来保证避免循环引用
- *
- * @category Object
- *
+ * @description 深度克隆对象，并避免循环引用
  * @param origin any complex type of object
  * @param hash hashMap
  * @returns a deep clone object
@@ -38,15 +34,16 @@ export function deepClone2(origin: any, hash = new WeakMap()): any {
 }
 
 /**
- * extend Fn equal `Object.assign`
- * @category Object
+ * @description extend Fn equal `Object.assign`
  */
 export const extend = Object.assign;
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
- * Object.prototype.hasOwnProperty
- * @category Object
+ * @description Object.prototype.hasOwnProperty 的安全调用封装
+ * @param val 对象
+ * @param key 键
+ * @returns 是否存在该键
  */
 export function hasOwn(
   val: object,
@@ -59,10 +56,9 @@ export function hasOwn(
 }
 
 /**
- * Deep merge two objects
- * 深度合并两个对象
- *
- * @category Object
+ * @description 深度合并两个对象
+ * @param original 原始对象
+ * @param patch 补丁对象
  * @returns merged object
  */
 export function deepMerge<T>(original: T, patch: DeepPartial<T>): T {
@@ -95,8 +91,7 @@ export function deepMerge<T>(original: T, patch: DeepPartial<T>): T {
 }
 
 /**
- * Check if an object has a key
- * 检查对象是否有某个键
+ * @description 检查对象是否有某个键
  * @param obj 对象
  * @param keys 键
  * @returns boolean
@@ -115,11 +110,12 @@ export function hasKey(obj: any, keys: string | string[]): boolean {
   }
   return hasOwn(obj, keys);
 }
+
 /**
- * Set object value
- * 对象复值
+ * @description 设置对象值
  * @param obj 对象
  * @param keys 键
+ * @param value 值
  * @returns Object
  */
 export function setObjValue(
@@ -134,10 +130,10 @@ export const set = setObjValue;
 /**
  * @description 获取对象属性
  * @param data 对象
- * @param path 属性路径 支持数组 ['a', 'b', 'c'] 或字符串 'a'
- * @param defaultValue 默认值，当属性值为 undefined 时返回
+ * @param path 属性路径
+ * @param defaultValue 默认值
  * @param isIncludedNull 是否包含 null 值
- * @returns { any } any:属性值
+ * @returns 属性值
  */
 export function getObjVal(
   data: any,
@@ -154,12 +150,12 @@ export function getObjVal(
 export const get = getObjVal;
 
 /**
- * @description 获取对象属性通过key列表（只要取到有效值就返回，否则返回默认值）
+ * @description 获取对象属性通过 key 列表（只要取到有效值就返回，否则返回默认值）
  * @param data 对象
  * @param keys 键列表
- * @param defaultValue 默认值，当所有属性值为 undefined/null 时返回
+ * @param defaultValue 默认值
  * @param returnFn 返回函数
- * @returns { any } any:属性值
+ * @returns 属性值
  */
 export function getObjValByKeys(
   data: any,
@@ -180,44 +176,21 @@ export function getObjValByKeys(
   return defaultValue;
 }
 
-/**
- * Remove empty values from objects, including empty arrays
- * 去除对象中的空值，包括空数组
- *
- * @param obj 对象
- * @param exclude 排除的字段
- * @returns merged object
- * @category object
- * @example
- * ```
- *
- *  const tempData = {
- *   a: { a: 1, c: 2 },
- *   c: 10,
- *   b: "",
- *   k: {
- *     a: "qq",
- *     b: null,
- *     c: undefined,
- *   },
- *   G: {
- *     q: {
- *       o: {
- *         s: "",
- *         m: 26,
- *       },
- *     },
- *   },
- * };
- *  const newList = removeEmptyValues(tempData);
- * //  {"a": {"a": 1,"c": 2},"c": 10,"k": {},"G": {"q": {"o": {"m": 26}}}}
- *
- * ```
- */
 export interface excludeOptions {
   keys?: string[];
   vals?: any[];
 }
+/**
+ * @description 去除对象中的空值，包括空数组
+ * @param obj 对象
+ * @param exclude 排除的字段
+ * @returns merged object
+ * @example
+ * ```
+ * removeEmptyValues({ a: 1, b: "", c: null });
+ * // => { a: 1 }
+ * ```
+ */
 export function removeEmptyValues(obj: any, exclude?: excludeOptions) {
   if (!isObject(obj)) {
     return obj;
@@ -254,47 +227,13 @@ export function removeEmptyValues(obj: any, exclude?: excludeOptions) {
 }
 
 /**
- * Remove `tree data` that matches the specified value
- * 去除树状数据中指定的数据
- *
- * @category Base
+ * @description 去除树状数据中指定的数据
  * @param treeData 树状数据
  * @param matchFunction 匹配函数
  * @returns Array 处理好的值
  * @example
  * ```
- *const treeData = [
- *  {
- *    id: 1,
- *    name: "A",
- *    children: [
- *      {
- *        id: 2,
- *        name: "B",
- *        children: [
- *          {
- *            id: 3,
- *            name: "C",
- *            children: [],
- *          },
- *        ],
- *      },
- *      {
- *        id: 4,
- *        name: "D",
- *        children: [],
- *      },
- *    ],
- *  },
- *  {
- *    id: 5,
- *    name: "E",
- *    children: [],
- *  },
- *];
- *const matchFunction = (item:any) => item.id === 3;
- *const newTreeData = removeTreeData(treeData, matchFunction);
- *
+ * removeTreeData([{ id: 1 }, { id: 2 }], (item) => item.id === 1);
  * ```
  */
 export const removeTreeData: any = (
@@ -323,7 +262,6 @@ export const removeTreeData: any = (
 };
 
 export default {
-  // deepClone,
   deepClone2,
   deepMerge,
   extend,

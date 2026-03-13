@@ -1,3 +1,8 @@
+/**
+ * @description 根据日志类型返回颜色配置
+ * @param type 日志类型
+ * @returns 颜色配置
+ */
 export function typeColor(type = "default") {
   const baseColor = {
     color: "black",
@@ -53,17 +58,11 @@ function logFunc(type = "primary", title: string, ...contents: any[]) {
 }
 
 /**
- * Console Plus
- * console升级版
- *
- * @category Log
- * @param str 打印的内容
+ * @description Console Plus
  * @example
  * ```
- *
  * consolePlus.log("warning", "test");
  * consolePlus.error("error", "error test", "[Error]: ");
- *
  * ```
  */
 export const consolePlus = {
