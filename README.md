@@ -4,9 +4,16 @@ This repository is a clean pnpm monorepo design for three concerns:
 
 - `@iceywu/utils`: shared utility library
 - `@iceywu/cli`: command line tool
+- `apps/playground`: interactive utils playground
 - `skills/`: Agent Skills compatible content
 
 The existing `utils`, `icey-cli`, and `skills` directories in the workspace remain untouched and can be used as source references during migration.
+
+## Playground
+
+Public deployment:
+
+- <https://iceywu-devkit.netlify.app/>
 
 ## Goals
 
@@ -20,6 +27,8 @@ The existing `utils`, `icey-cli`, and `skills` directories in the workspace rema
 ```text
 iceywu-devkit/
   AGENTS.md
+  apps/
+    playground/
   docs/
   packages/
     cli/

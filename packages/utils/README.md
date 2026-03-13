@@ -5,6 +5,12 @@
 
 TypeScript utility library.
 
+## Playground
+
+Try the interactive playground online:
+
+- <https://iceywu-devkit.netlify.app/>
+
 ## Installation
 
 ```bash
