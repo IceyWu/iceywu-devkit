@@ -5,6 +5,19 @@
   },
   "overrides": [
     {
+      "includes": ["apps/playground/src/**/*.vue"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedVariables": "off"
+          },
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": [
         "packages/utils/src/index.ts",
         "packages/utils/src/promise.ts",

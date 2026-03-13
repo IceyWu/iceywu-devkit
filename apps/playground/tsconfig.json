@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
+    "types": ["vite/client"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@iceywu/utils": ["../../packages/utils/src/index.ts"],
+      "@iceywu/utils/promise": ["../../packages/utils/src/promise.ts"],
+      "@iceywu/utils/array": ["../../packages/utils/src/array/index.ts"],
+      "@iceywu/utils/async-task": [
+        "../../packages/utils/src/asyncTask/index.ts"
+      ],
+      "@iceywu/utils/download": ["../../packages/utils/src/download/index.ts"],
+      "@iceywu/utils/is": ["../../packages/utils/src/is/index.ts"],
+      "@iceywu/utils/lodash-lite": [
+        "../../packages/utils/src/lodash-lite/index.ts"
+      ],
+      "@iceywu/utils/log": ["../../packages/utils/src/log/index.ts"],
+      "@iceywu/utils/network": ["../../packages/utils/src/network/index.ts"],
+      "@iceywu/utils/object": ["../../packages/utils/src/object/index.ts"],
+      "@iceywu/utils/shared": ["../../packages/utils/src/shared/index.ts"],
+      "@iceywu/utils/tools": ["../../packages/utils/src/tools/index.ts"],
+      "@iceywu/utils/to-pro": ["../../packages/utils/src/to/toPro.ts"],
+      "@iceywu/utils/types": ["../../packages/utils/src/types.ts"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "vite.config.ts",
+    "../../packages/utils/src/**/*.ts"
+  ]
+}

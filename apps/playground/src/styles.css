@@ -1,0 +1,136 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+:root {
+  --accent: #d48f44;
+  --accent-soft: #ecc89e;
+  --bg: #f5efe6;
+  --line: #e4d9cb;
+  --line-strong: #cfbfaf;
+  --muted: #817669;
+  --muted-strong: #655c53;
+  --panel: rgba(255, 250, 244, 0.92);
+  --surface: rgba(255, 255, 255, 0.72);
+  --surface-accent: rgba(255, 243, 229, 0.9);
+  --surface-alt: rgba(120, 102, 82, 0.08);
+  --text: #201d1a;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-mono: "IBM Plex Mono", "Cascadia Code", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  color: var(--text);
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 195, 132, 0.2),
+      transparent 22%
+    ),
+    linear-gradient(180deg, #f7f1e8 0%, #ede3d6 100%);
+}
+
+button,
+input,
+textarea,
+pre,
+code {
+  font: inherit;
+}
+
+pre,
+code,
+textarea {
+  font-family: var(--font-mono);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.panel {
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 28px;
+  box-shadow: 0 18px 48px rgba(45, 41, 35, 0.08);
+}
+
+.scroll-panel {
+  min-height: 0;
+  overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.scroll-panel::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scroll-panel::-webkit-scrollbar-thumb {
+  background: rgba(35, 46, 43, 0.2);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+  border-radius: 999px;
+}
+
+.scroll-panel::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (min-width: 1280px) {
+  #app {
+    max-width: 1440px;
+    min-height: 100vh;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    overflow: auto;
+  }
+
+  #app {
+    padding: 12px;
+    overflow: visible;
+  }
+
+  .panel {
+    padding: 16px;
+    border-radius: 22px;
+  }
+}
+
+@media (max-width: 1180px) {
+  body {
+    overflow: auto;
+  }
+
+  #app {
+    overflow: visible;
+  }
+}

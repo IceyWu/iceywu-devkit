@@ -11,6 +11,8 @@
     "build": "pnpm -r --filter \"@iceywu/*\" build",
     "clean": "pnpm -r --filter \"@iceywu/*\" clean",
     "dev": "pnpm -r --parallel --filter \"@iceywu/*\" dev",
+    "dev:playground": "pnpm --filter devkit-playground dev",
+    "build:playground": "pnpm --filter devkit-playground build",
     "changeset": "changeset",
     "format": "ultracite fix",
     "format:check": "ultracite check",
@@ -20,8 +22,9 @@
     "typecheck": "pnpm -r --filter \"@iceywu/*\" typecheck",
     "test": "pnpm -r --if-present --filter \"@iceywu/*\" test",
     "version-packages": "changeset version",
-    "check": "pnpm run validate:skills && pnpm run typecheck && pnpm -r --if-present --filter \"@iceywu/*\" run check:package",
-    "validate:skills": "node ./tools/validate-skills.mjs"
+    "check": "pnpm run validate:skills && pnpm run validate:playground-demos && pnpm run typecheck && pnpm -r --if-present --filter \"@iceywu/*\" run check:package",
+    "validate:skills": "node ./tools/validate-skills.mjs",
+    "validate:playground-demos": "pnpm --filter devkit-playground run check:demos"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.6",
