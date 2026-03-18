@@ -1,6 +1,6 @@
 {
   "name": "@iceywu/utils",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "description": "A public TypeScript utility library with curated root exports and explicit module subpaths",
   "type": "module",
   "author": "Icey Wu <3128006406@qq.com>",
