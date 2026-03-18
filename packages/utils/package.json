@@ -22,11 +22,11 @@
     "dist"
   ],
   "dependencies": {
-    "debounce": "^2.2.0",
-    "lodash": "^4.17.21"
+    "debounce": "^3.0.0",
+    "lodash": "^4.17.23"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.20"
+    "@types/lodash": "^4.17.24"
   },
   "publishConfig": {
     "access": "public",
