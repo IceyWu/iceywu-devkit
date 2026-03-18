@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { to, toTry } from "./index";
+import { deepClone, to, toTry } from "./index";
 import { getRandom } from "./shared";
 
 describe("public api", () => {
@@ -27,5 +27,14 @@ describe("public api", () => {
       expect(value).toBeGreaterThanOrEqual(2);
       expect(value).toBeLessThanOrEqual(4);
     }
+  });
+
+  it("deepClone is available from the root entry", () => {
+    const source = { nested: { ok: true } };
+    const cloned = deepClone(source);
+
+    expect(cloned).toEqual(source);
+    expect(cloned).not.toBe(source);
+    expect(cloned.nested).not.toBe(source.nested);
   });
 });
