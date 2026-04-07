@@ -1,3 +1,13 @@
 packages:
   - apps/*
   - packages/*
+
+settings:
+  autoInstallPeers: true
+  linkWorkspacePackages: true
+  preferWorkspacePackages: true
+  sharedWorkspaceLockfile: true
+  strictPeerDependencies: false
+
+allowBuilds:
+  esbuild: true

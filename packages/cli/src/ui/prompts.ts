@@ -31,7 +31,7 @@ export async function confirmOverwrite(projectName: string) {
 }
 
 export async function promptProjectName(
-  validate: (value: string) => string | undefined
+  validate: (value: string | undefined) => string | Error | undefined
 ) {
   const answer = await text({
     message: "请输入项目名称：",

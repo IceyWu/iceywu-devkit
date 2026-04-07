@@ -13,6 +13,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "types": ["node"],
+    "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
       "@iceywu/utils": ["packages/utils/src/index.ts"]
