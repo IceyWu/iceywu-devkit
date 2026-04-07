@@ -70,7 +70,7 @@ export async function runCreateCommand(
   const finalProjectName =
     appName?.trim() ||
     (await promptProjectName((input) => {
-      const validation = validateAppName(input.trim());
+      const validation = validateAppName(input?.trim());
       return validation.isValid ? undefined : validation.message;
     }));
 
