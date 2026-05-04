@@ -145,51 +145,6 @@ export function removeListEmptyVal<T>(
   return treeList;
 }
 
-/**
- * @description 获取数组第一个元素
- * @param list  被处理的数组
- * @param defaultVal 默认值(可选)
- * @returns Array 处理好的数组
- * @example
- * ```
- * arrayFirst([1, 2, 3]) // => 1
- * arrayFirst(null,{}) // => {}
- * ```
- */
-export function arrayFirst(list: any, defaultVal?: any) {
-  return list?.[0] ?? defaultVal;
-}
-
-/**
- * @description 获取数组指定位置区间元素，组成新数组
- * @param list  被处理的数组
- * @param start 开始位置
- * @param end 结束位置
- * @returns Array 处理好的数组
- * @example
- * ```
- * arraySlice([1, 2, 3, 4, 5], 1, 3) // => [2, 3, 4]
- * ```
- */
-export function arraySlice(list: any[], start: number, end: number) {
-  return list.slice(start, end);
-}
-
-/**
- * @description 获取数组最后一个元素
- * @param list  被处理的数组
- * @param defaultVal 默认值(可选)
- * @returns Array 处理好的数组
- * @example
- * ```
- * arrayLast([1, 2, 3]) // => 3
- * arrayLast(null,{}) // => {}
- * ```
- */
-export function arrayLast(list: any, defaultVal?: any) {
-  return list?.[list.length - 1] ?? defaultVal;
-}
-
 export interface DataInfoOptions {
   base?: any[];
   fillData?: any | Function;

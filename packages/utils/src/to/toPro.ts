@@ -1,5 +1,5 @@
 import { isArray } from "../is";
-import { getObjVal } from "../object";
+import { get } from "../object";
 import { to } from "./index";
 
 interface ValItem {
@@ -32,7 +32,7 @@ export async function toPro<T, _any>(promise: Promise<T>, valList?: ValItem[]) {
         valList.forEach(({ keys, valFormat }) => {
           const tempKeys = isArray(keys) ? keys : [keys];
           const valList = tempKeys.map((key: any) => {
-            return getObjVal(resObj, key);
+            return get(resObj, key);
           });
           const tempVal = valFormat ? valFormat(valList) : valList;
           if (isArray(tempVal) && tempVal.length === 1 && !valFormat) {

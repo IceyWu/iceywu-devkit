@@ -1,42 +1,121 @@
-import get_base from "lodash/get.js";
-import set_base from "lodash/set.js";
 import { removeListEmptyVal } from "../array";
-import { isArray, isDate, isEmpty, isObject, isRegExp } from "../is";
+import { isArray, isEmpty, isObject } from "../is";
 import type { DeepPartial } from "../types";
 
-/**
- * @description 深度克隆对象，并避免循环引用
- * @param origin any complex type of object
- * @param hash hashMap
- * @returns a deep clone object
- */
-export function deepClone2(origin: any, hash = new WeakMap()): any {
-  if (isObject(origin)) {
-    if (hash.has(origin)) {
-      return hash.get(origin);
-    }
+/* -------------------------------------------------------------------------- */
+/* Path-aware get / set (behavior aligned with lodash@4)                      */
+/* -------------------------------------------------------------------------- */
 
-    const target: any = isArray(origin) ? [] : {};
-    hash.set(origin, target);
+const rePropName =
+  /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+const reEscapeChar = /\\(\\)?/g;
+const reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*\1)\]/;
+const reIsPlainProp = /^\w*$/;
+const reIsUint = /^(?:0|[1-9]\d*)$/;
+const MAX_SAFE_INDEX = 9_007_199_254_740_991;
 
-    Object.entries(origin).forEach(([k, v]: [string, any]) => {
-      if (isRegExp(v)) {
-        target[k] = new RegExp(v);
-      } else if (isDate(v)) {
-        target[k] = new Date(v);
-      } else {
-        target[k] = deepClone2(v, hash);
-      }
-    });
-    return target;
+function isPathKey(value: unknown, owner?: unknown): boolean {
+  if (Array.isArray(value)) {
+    return false;
   }
-  return origin;
+  const t = typeof value;
+  if (t === "number" || t === "symbol" || t === "boolean" || value == null) {
+    return true;
+  }
+  return (
+    reIsPlainProp.test(value as string) ||
+    !reIsDeepProp.test(value as string) ||
+    (owner != null && (value as string) in (owner as object))
+  );
 }
 
-/**
- * @description extend Fn equal `Object.assign`
- */
-export const extend = Object.assign;
+function stringToPath(input: string): string[] {
+  const result: string[] = [];
+  if (input.charCodeAt(0) === 46 /* . */) {
+    result.push("");
+  }
+  input.replace(rePropName, (match, _number, quote, sub) => {
+    result.push(
+      quote ? (sub as string).replace(reEscapeChar, "$1") : _number || match
+    );
+    return "";
+  });
+  return result;
+}
+
+function castPath(value: unknown, owner?: unknown): PropertyKey[] {
+  if (Array.isArray(value)) {
+    return value as PropertyKey[];
+  }
+  return isPathKey(value, owner)
+    ? [value as PropertyKey]
+    : (stringToPath(String(value)) as PropertyKey[]);
+}
+
+function isLikelyIndex(value: unknown, length = MAX_SAFE_INDEX): boolean {
+  const t = typeof value;
+  const num =
+    t === "number"
+      ? (value as number)
+      : t === "symbol"
+        ? Number.NaN
+        : Number(value);
+  return (
+    !!length &&
+    (t === "number" || (t !== "symbol" && reIsUint.test(String(value)))) &&
+    num > -1 &&
+    num % 1 === 0 &&
+    num < length
+  );
+}
+
+function pathGet(object: unknown, path: PropertyKey | PropertyKey[]): unknown {
+  if (object == null) {
+    return;
+  }
+  const segments = castPath(path, object);
+  let cursor: any = object;
+  let index = 0;
+  const length = segments.length;
+  while (cursor != null && index < length) {
+    cursor = cursor[segments[index++] as keyof typeof cursor];
+  }
+  return index && index === length ? cursor : undefined;
+}
+
+function pathSet(
+  object: unknown,
+  path: PropertyKey | PropertyKey[],
+  value: unknown
+): unknown {
+  if (object == null || (typeof object !== "object" && typeof object !== "function")) {
+    return object;
+  }
+  const segments = castPath(path, object);
+  const length = segments.length;
+  const lastIndex = length - 1;
+  let nested: any = object;
+  let index = -1;
+  while (nested != null && ++index < length) {
+    const key = segments[index] as keyof typeof nested;
+    if (key === "__proto__" || key === "constructor" || key === "prototype") {
+      return object;
+    }
+    let nextValue: unknown = value;
+    if (index !== lastIndex) {
+      const existing = nested[key];
+      nextValue =
+        existing !== null && typeof existing === "object"
+          ? existing
+          : isLikelyIndex(segments[index + 1])
+            ? []
+            : {};
+    }
+    nested[key] = nextValue;
+    nested = nested[key];
+  }
+  return object;
+}
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
@@ -118,15 +197,14 @@ export function hasKey(obj: any, keys: string | string[]): boolean {
  * @param value 值
  * @returns Object
  */
-export function setObjValue(
+export function set(
   obj: any,
   keys: string | string[],
   value: any
 ): any {
-  return set_base(obj, keys, value);
+  return pathSet(obj, keys, value);
 }
 
-export const set = setObjValue;
 /**
  * @description 获取对象属性
  * @param data 对象
@@ -135,19 +213,19 @@ export const set = setObjValue;
  * @param isIncludedNull 是否包含 null 值
  * @returns 属性值
  */
-export function getObjVal(
+export function get(
   data: any,
   path: string | string[] | undefined,
   defaultValue: any = undefined,
   isIncludedNull = true
 ) {
-  const val = isEmpty(path)
-    ? data
-    : get_base(data, path as string | string[], defaultValue);
+  if (isEmpty(path)) {
+    return data;
+  }
+  const raw = pathGet(data, path as PropertyKey | PropertyKey[]);
+  const val = raw === undefined ? defaultValue : raw;
   return isIncludedNull && val === null ? defaultValue : val;
 }
-
-export const get = getObjVal;
 
 /**
  * @description 获取对象属性通过 key 列表（只要取到有效值就返回，否则返回默认值）
@@ -167,7 +245,7 @@ export function getObjValByKeys(
     return data;
   }
   for (let i = 0; i < keys.length; i++) {
-    const val = getObjVal(data, keys[i], undefined);
+    const val = get(data, keys[i], undefined);
     const _returnFn = returnFn || ((val: any) => !isEmpty(val));
     if (_returnFn(val)) {
       return val;
@@ -218,8 +296,8 @@ export function removeEmptyValues(obj: any, exclude?: excludeOptions) {
   for (let i = 0; i < keys.length; i++) {
     const k = keys[i];
     if (hasKey(obj, k)) {
-      const valT = getObjVal(obj, k);
-      setObjValue(result, k, valT);
+      const valT = get(obj, k);
+      set(result, k, valT);
     }
   }
 
@@ -262,16 +340,12 @@ export const removeTreeData: any = (
 };
 
 export default {
-  deepClone2,
   deepMerge,
-  extend,
   hasOwn,
   removeEmptyValues,
   hasKey,
-  setObjValue,
-  getObjVal,
-  removeTreeData,
   set,
   get,
+  removeTreeData,
   getObjValByKeys,
 };

@@ -16,28 +16,6 @@ return {
     title: "对象工具集合",
   },
   {
-    code: `import { deepClone2 } from "@iceywu/utils/object";
-
-const source = {
-  createdAt: new Date("2026-03-13T00:00:00Z"),
-  nested: { label: "demo" },
-  pattern: /icey/gi,
-};
-
-source.self = source;
-
-const cloned = deepClone2(source);
-
-return {
-  cloned,
-  keepsCircle: cloned.self === cloned,
-  sameNestedRef: cloned.nested === source.nested,
-};`,
-    exportName: "deepClone2",
-    summary: "深拷贝复杂对象，并验证循环引用不会炸掉。",
-    title: "深拷贝对象",
-  },
-  {
     code: `import { deepMerge } from "@iceywu/utils/object";
 
 return deepMerge(
@@ -56,32 +34,7 @@ return deepMerge(
     title: "深度合并对象",
   },
   {
-    code: `import { extend } from "@iceywu/utils/object";
-
-return extend({ base: true }, { feature: "playground" }, { count: 3 });`,
-    exportName: "extend",
-    summary: "extend() 等价于 Object.assign()，适合轻量对象合并。",
-    title: "浅合并对象",
-  },
-  {
     code: `import { get } from "@iceywu/utils/object";
-
-const state = {
-  profile: {
-    owner: { name: "Icey" },
-  },
-};
-
-return {
-  hit: get(state, ["profile", "owner", "name"]),
-  miss: get(state, ["profile", "owner", "title"], "unknown"),
-};`,
-    exportName: "get",
-    summary: "通过别名 get() 读取深层路径并提供默认值。",
-    title: "读取深层字段",
-  },
-  {
-    code: `import { getObjVal } from "@iceywu/utils/object";
 
 const response = {
   data: {
@@ -93,10 +46,10 @@ const response = {
 };
 
 return {
-  name: getObjVal(response, ["data", "profile", "name"]),
-  cityFallback: getObjVal(response, ["data", "profile", "city"], "Hangzhou"),
+  name: get(response, ["data", "profile", "name"]),
+  cityFallback: get(response, ["data", "profile", "city"], "Hangzhou"),
 };`,
-    exportName: "getObjVal",
+    exportName: "get",
     summary: "读取对象路径，并观察 null 时的默认值回退。",
     title: "安全取值",
   },
@@ -185,22 +138,11 @@ return removeTreeData(tree, (item) => item.id === 12 || item.id === 2);`,
   {
     code: `import { set } from "@iceywu/utils/object";
 
-const draft = { profile: {} };
-set(draft, ["profile", "city"], "Hangzhou");
+const draft = { settings: { theme: "light" } };
+set(draft, ["settings", "layout", "density"], "compact");
 
 return draft;`,
     exportName: "set",
-    summary: "通过别名 set() 为深层路径写入值。",
-    title: "写入深层字段",
-  },
-  {
-    code: `import { setObjValue } from "@iceywu/utils/object";
-
-const draft = { settings: { theme: "light" } };
-setObjValue(draft, ["settings", "layout", "density"], "compact");
-
-return draft;`,
-    exportName: "setObjValue",
     summary: "为对象路径注入新值，缺失层级会自动补齐。",
     title: "设置对象值",
   },

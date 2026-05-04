@@ -1,5 +1,5 @@
 import { isArray } from "../is";
-import { getObjVal } from "../object";
+import { get } from "../object";
 import type { Awaitable } from "../types";
 
 interface Rules {
@@ -63,7 +63,7 @@ export function getAsyncTask(
     }
 
     const isComplete = rules.every(({ keys, val, predicate }) => {
-      const actualVal = getObjVal(res, keys);
+      const actualVal = get(res, keys);
       return predicate ? predicate(actualVal) : actualVal === val;
     });
 

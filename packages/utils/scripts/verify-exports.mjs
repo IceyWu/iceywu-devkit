@@ -36,7 +36,7 @@ async function validateRuntimeImports() {
     "./lodash-lite": ["sortObj"],
     "./log": ["consolePlus", "typeColor"],
     "./network": ["getStreamResponse"],
-    "./object": ["getObjVal", "deepMerge"],
+    "./object": ["get", "deepMerge"],
     "./tools": ["destr", "getFileType"],
     "./to-pro": ["toPro"],
   };

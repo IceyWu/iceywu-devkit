@@ -1,4 +1,133 @@
-import debounce from "debounce";
+type AnyFunction = (...args: readonly any[]) => unknown;
+
+export interface DebounceOptions {
+  /** Execute on the leading edge instead of the trailing edge. */
+  readonly immediate?: boolean;
+}
+
+export interface DebouncedFunction<F extends AnyFunction> {
+  (...args: Parameters<F>): ReturnType<F> | undefined;
+  readonly isPending: boolean;
+  clear(): void;
+  flush(): void;
+  trigger(): void;
+}
+
+/**
+ * @description 延迟调用，最后一次调用后 wait 毫秒才执行。语义与
+ * `debounce@3` 一致：提供 `isPending` / `clear()` / `flush()` / `trigger()` 控制
+ * 接口，并会在 `function_` 非函数、`wait` 为负、或 `options` 为 boolean 时
+ * 抛出对应的 TypeError / RangeError。
+ */
+export function debounce<F extends AnyFunction>(
+  function_: F,
+  wait = 100,
+  options: DebounceOptions = {}
+): DebouncedFunction<F> {
+  if (typeof function_ !== "function") {
+    throw new TypeError(
+      `Expected the first parameter to be a function, got \`${typeof function_}\`.`
+    );
+  }
+  if (wait < 0) {
+    throw new RangeError("`wait` must not be negative.");
+  }
+  if (typeof options === "boolean") {
+    throw new TypeError(
+      "The `options` parameter must be an object, not a boolean. Use `{immediate: true}` instead."
+    );
+  }
+
+  const { immediate } = options;
+
+  let storedContext: unknown;
+  let storedArguments: Parameters<F> | undefined;
+  let timeoutId: ReturnType<typeof setTimeout> | undefined;
+  let timestamp = 0;
+  let result: ReturnType<F> | undefined;
+
+  function run(): ReturnType<F> | undefined {
+    const callContext = storedContext;
+    const callArguments = storedArguments;
+    storedContext = undefined;
+    storedArguments = undefined;
+    result = (function_ as (...a: any[]) => ReturnType<F>).apply(
+      callContext,
+      (callArguments ?? []) as any[]
+    );
+    return result;
+  }
+
+  function later(): void {
+    const last = Date.now() - timestamp;
+    if (last < wait && last >= 0) {
+      timeoutId = setTimeout(later, wait - last);
+    } else {
+      timeoutId = undefined;
+      if (!immediate) {
+        result = run();
+      }
+    }
+  }
+
+  const debounced = function (
+    this: unknown,
+    ...arguments_: Parameters<F>
+  ): ReturnType<F> | undefined {
+    if (
+      storedContext &&
+      this !== storedContext &&
+      Object.getPrototypeOf(this) === Object.getPrototypeOf(storedContext)
+    ) {
+      throw new Error(
+        "Debounced method called with different contexts of the same prototype."
+      );
+    }
+
+    storedContext = this;
+    storedArguments = arguments_;
+    timestamp = Date.now();
+
+    const callNow = immediate && !timeoutId;
+    if (!timeoutId) {
+      timeoutId = setTimeout(later, wait);
+    }
+    if (callNow) {
+      result = run();
+      return result;
+    }
+  } as DebouncedFunction<F>;
+
+  Object.defineProperty(debounced, "isPending", {
+    get(): boolean {
+      return timeoutId !== undefined;
+    },
+  });
+
+  debounced.clear = (): void => {
+    if (!timeoutId) {
+      return;
+    }
+    clearTimeout(timeoutId);
+    timeoutId = undefined;
+    storedContext = undefined;
+    storedArguments = undefined;
+  };
+
+  debounced.flush = (): void => {
+    if (!timeoutId) {
+      return;
+    }
+    debounced.trigger();
+  };
+
+  debounced.trigger = (): void => {
+    result = run();
+    debounced.clear();
+  };
+
+  return debounced;
+}
 
 /**
  * @description 获取文件类型
@@ -78,21 +207,6 @@ export function formatNumber(num: number): string {
 }
 
 /**
- * @description 生成指定长度的随机字符串
- * @param length 长度
- * @returns { string } string:随机字符串
- */
-export function randomString(length: number): string {
-  const characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-}
-
-/**
  * @description 节流函数
  * @param func 函数
  * @param delay 延迟时间
@@ -121,11 +235,9 @@ export function throttle(func: Function, delay: number): Function {
   };
 }
 
-export { debounce };
-
 export default {
   getFileType,
   formatNumber,
-  randomString,
   throttle,
+  debounce,
 };

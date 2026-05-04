@@ -57,6 +57,7 @@
             "noBannedTypes": "off",
             "noExcessiveCognitiveComplexity": "off",
             "noForEach": "off",
+            "noUselessUndefinedInitialization": "off",
             "useOptionalChain": "off"
           },
           "performance": {
@@ -64,19 +65,27 @@
           },
           "style": {
             "noExportedImports": "off",
+            "noNegationElse": "off",
             "noNonNullAssertion": "off",
             "noNestedTernary": "off",
+            "useCollapsedElseIf": "off",
             "useFilenamingConvention": "off",
             "useConsistentArrayType": "off",
             "useDefaultParameterLast": "off",
-            "useForOf": "off"
+            "useForOf": "off",
+            "useNumberNamespace": "off",
+            "useUnifiedTypeSignatures": "off"
           },
           "suspicious": {
             "noBitwiseOperators": "off",
+            "noConfusingVoidType": "off",
+            "noDoubleEquals": "off",
             "noEmptyBlockStatements": "off",
             "noEvolvingTypes": "off",
             "noExplicitAny": "off",
             "noImplicitAnyLet": "off",
+            "noPrototypeBuiltins": "off",
+            "noSelfCompare": "off",
             "noShadowRestrictedNames": "off",
             "useAwait": "off"
           }

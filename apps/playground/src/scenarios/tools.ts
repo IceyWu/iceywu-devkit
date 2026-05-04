@@ -78,19 +78,6 @@ return {
     title: "识别文件类型",
   },
   {
-    code: `import { randomString } from "@iceywu/utils/tools";
-
-const value = randomString(12);
-
-return {
-  length: value.length,
-  value,
-};`,
-    exportName: "randomString",
-    summary: "生成一段固定长度的随机英数字符串。",
-    title: "随机工具字符串",
-  },
-  {
     code: `import { safeDestr } from "@iceywu/utils/tools";
 
 let message = "";

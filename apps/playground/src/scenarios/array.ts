@@ -2,36 +2,6 @@ import { createExamples } from "./helpers";
 
 export const arrayExamples = createExamples("@iceywu/utils/array", [
   {
-    code: `import { arrayFirst } from "@iceywu/utils/array";
-
-return {
-  first: arrayFirst(["alpha", "beta", "gamma"]),
-  fallback: arrayFirst(null, "empty"),
-};`,
-    exportName: "arrayFirst",
-    summary: "快速查看首项读取和默认值回退。",
-    title: "读取首项",
-  },
-  {
-    code: `import { arrayLast } from "@iceywu/utils/array";
-
-return {
-  last: arrayLast(["alpha", "beta", "gamma"]),
-  fallback: arrayLast(undefined, "empty"),
-};`,
-    exportName: "arrayLast",
-    summary: "验证 arrayLast() 对普通数组和空值的表现。",
-    title: "读取末项",
-  },
-  {
-    code: `import { arraySlice } from "@iceywu/utils/array";
-
-return arraySlice(["a", "b", "c", "d", "e"], 1, 4);`,
-    exportName: "arraySlice",
-    summary: "截取指定区间并返回一个新数组。",
-    title: "数组片段",
-  },
-  {
     code: `import { diff } from "@iceywu/utils/array";
 
 const base = [
