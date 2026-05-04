@@ -1,0 +1,12 @@
+{
+  "$schema": "./sync.schema.json",
+  "skills": [
+    {
+      "skill": "vue",
+      "repo": "https://github.com/IceyWu/skills.git",
+      "ref": "main",
+      "sourcePath": "skills/vue",
+      "lockedSha": "dfba28c608b12e210ee8bb33451279d283294097"
+    }
+  ]
+}

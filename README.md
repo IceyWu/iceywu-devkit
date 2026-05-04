@@ -37,7 +37,10 @@ iceywu-devkit/
     iceywu-cli/
     iceywu-devkit-workflow/
     iceywu-utils/
+    vue/
   tools/
+  internal/
+    skills-maintenance/
   package.json
   pnpm-workspace.yaml
   tsconfig.base.json

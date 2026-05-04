@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Skill Sync Config",
+  "description": "Declarative configuration for upstream-synced skills. Consumed by internal/skills-maintenance/sync.mjs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["skills"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["skill", "repo", "ref", "sourcePath"],
+        "properties": {
+          "skill": {
+            "type": "string",
+            "description": "Local skill directory name under skills/.",
+            "pattern": "^(?!-)(?!.*--)[a-z0-9-]{1,64}(?<!-)$"
+          },
+          "repo": {
+            "type": "string",
+            "description": "Upstream git repository (HTTPS).",
+            "format": "uri"
+          },
+          "ref": {
+            "type": "string",
+            "description": "Branch, tag, or full SHA to track."
+          },
+          "sourcePath": {
+            "type": "string",
+            "description": "Path inside the upstream repo whose contents are copied into skills/<skill>/."
+          },
+          "lockedSha": {
+            "type": "string",
+            "description": "Last verified upstream commit SHA. Rewritten by the runner.",
+            "pattern": "^[0-9a-f]{7,40}$"
+          }
+        }
+      }
+    }
+  }
+}

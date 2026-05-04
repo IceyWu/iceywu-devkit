@@ -2,9 +2,9 @@
 name: iceywu-cli
 description: IceyWu CLI command design, TypeScript package structure, template discovery, terminal UX, and publishing workflow. Use when editing commands, prompts, services, validation, or release-facing CLI behavior.
 metadata:
-	author: IceyWu
-	version: "2026.3.12"
-	source: Derived from packages/cli README, docs/architecture.md, and the workspace package layout
+  author: IceyWu
+  version: "2026.3.12"
+  source: Derived from packages/cli README, docs/architecture.md, and the workspace package layout
 ---
 
 # IceyWu CLI

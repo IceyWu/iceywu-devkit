@@ -2,62 +2,70 @@
 
 ## Package Scope
 
-- Package name: @iceywu/utils
-- Source directory: packages/utils
-- Audience: internal workspace packages and external applications
+- Package name: `@iceywu/utils`
+- Source directory: `packages/utils`
+- Audience: internal workspace packages and external npm consumers
+- Runtime dependencies: **none**
 
-## Migration Coverage
+## Root Exports (`@iceywu/utils`)
 
-- Source reference for migration comparisons: legacy workspace `utils`
-- Migrated publishable domains: `array`, `asyncTask`, `download`, `is`, `lodash-lite`, `log`, `network`, `object`, `shared`, `to`, `tools`, `types`
-- Additional migrated packaging surface: `promise`, export verification, lodash subpath type declarations
-- Legacy `utils/src/browser/index.ts` is intentionally not published because it only contains commented draft code and was never exported from the legacy root entry
+Intentionally small. Only the most common promise helpers and the public type surface are re-exported from the root entry.
 
-## Root Exports
+- `to` — tuple-style `[err, value]` Promise wrapper
+- `toTry` — synchronous tuple-style wrapper
+- `toPro` — batched/structured variant of `to`
+- Shared public types via `./types`
 
-- to
-- toTry
-- toPro
-- Shared public types from ./types
+All other domains must be imported through their explicit subpaths.
 
 ## Subpath Exports
 
-- @iceywu/utils/promise
-- @iceywu/utils/is
-- @iceywu/utils/shared
-- @iceywu/utils/types
-- @iceywu/utils/array
-- @iceywu/utils/async-task
-- @iceywu/utils/download
-- @iceywu/utils/lodash-lite
-- @iceywu/utils/log
-- @iceywu/utils/network
-- @iceywu/utils/object
-- @iceywu/utils/tools
-- @iceywu/utils/to-pro
+| Subpath | Source | Highlights |
+| --- | --- | --- |
+| `@iceywu/utils/promise` | `src/promise.ts` | Promise-only entry (same as root `to` trio) |
+| `@iceywu/utils/is` | `src/is/` | `isString`, `isArray`, `isObject`, `isEmpty`, … |
+| `@iceywu/utils/shared` | `src/shared/` | `getRandom`, `randomStr`, stable hashing |
+| `@iceywu/utils/types` | `src/types.ts` | Public type re-exports |
+| `@iceywu/utils/array` | `src/array/` | `diff`, `flat`, `list`, `listFill`, `range`, `removeListEmptyVal`, `sift` |
+| `@iceywu/utils/async-task` | `src/asyncTask/` | `getAsyncTask`, `all`, `sleep` |
+| `@iceywu/utils/download` | `src/download/` | `createDownload`, `downloadFile` |
+| `@iceywu/utils/lodash-lite` | `src/lodash-lite/` | `deepClone`, `compareObjects`, `arrayNth`, `sortObj`, plus internal `fromPairs`/`toPairs` |
+| `@iceywu/utils/log` | `src/log/` | `consolePlus`, `typeColor` |
+| `@iceywu/utils/network` | `src/network/` | `getStreamResponse` |
+| `@iceywu/utils/object` | `src/object/` | `get`, `set`, `deepMerge`, `hasOwn`, `hasKey`, `removeEmptyValues`, `removeTreeData`, `getObjValByKeys` |
+| `@iceywu/utils/tools` | `src/tools/` | `destr`, `safeDestr`, `getFileType`, `formatNumber`, `throttle`, `debounce` |
+| `@iceywu/utils/to-pro` | `src/to/toPro.ts` | Re-exports `toPro` |
 
-## Legacy Import Mapping
+## Removed Exports (2026.5.4, breaking)
 
-- Root promise helpers: `@iceywu/utils`
-- Promise-only entry: `@iceywu/utils/promise`
-- `src/array/*` -> `@iceywu/utils/array`
-- `src/asyncTask/*` -> `@iceywu/utils/async-task`
-- `src/download/*` -> `@iceywu/utils/download`
-- `src/is/*` -> `@iceywu/utils/is`
-- `src/lodash-lite/*` -> `@iceywu/utils/lodash-lite`
-- `src/log/*` -> `@iceywu/utils/log`
-- `src/network/*` -> `@iceywu/utils/network`
-- `src/object/*` -> `@iceywu/utils/object`
-- `src/shared/*` -> `@iceywu/utils/shared`
-- `src/tools/*` -> `@iceywu/utils/tools`
-- `src/types.ts` -> `@iceywu/utils/types`
+| Removed | Replacement |
+| --- | --- |
+| `deepClone2(o)` | `import { deepClone } from "@iceywu/utils/lodash-lite"` |
+| `extend(a, b)` | `Object.assign(a, b)` |
+| `setObjValue(o, p, v)` | `set(o, p, v)` from `@iceywu/utils/object` |
+| `getObjVal(o, p, d)` | `get(o, p, d)` from `@iceywu/utils/object` |
+| `arrayFirst(a, d)` | `a?.[0] ?? d` or `arrayNth(a, 0, d)` |
+| `arrayLast(a, d)` | `a?.[a.length - 1] ?? d` or `arrayNth(a, -1, d)` |
+| `arraySlice(a, s, e)` | `a.slice(s, e)` |
+| `randomString(n)` | `import { randomStr } from "@iceywu/utils/shared"` |
 
 ## Public API Principles
 
-- Keep the root API curated and intentionally small
-- Publish larger historical domains as explicit subpaths
-- Avoid crowding the root entry with every helper
-- Keep exported types stable and intentional
+- Keep the root entry curated and intentionally small.
+- Publish every historical or growing domain as an explicit subpath so consumers opt in.
+- Preserve tree-shakeable named exports; no default-only exports from the public surface.
+- Exported types are part of the supported surface — treat them as you would runtime signatures.
+- When behavior parity with a legacy third-party helper is required, document the parity source in a short comment (e.g. "lodash@4 `get` behavior").
+
+## Verification
+
+Always run after API changes:
+
+```bash
+pnpm --filter @iceywu/utils check:package
+```
+
+This builds the package and runs `scripts/verify-exports.mjs`, which imports every subpath from the published entry points and asserts that at least one representative export exists. Failing here means `package.json#exports` / `src/<subpath>/index.ts` / `tsup` entry list drifted.
 
 ## Example
 
@@ -65,14 +73,15 @@
 import { to } from "@iceywu/utils";
 import { diff } from "@iceywu/utils/array";
 import { isString } from "@iceywu/utils/is";
-import { getRandom } from "@iceywu/utils/shared";
+import { get, set } from "@iceywu/utils/object";
+import { deepClone } from "@iceywu/utils/lodash-lite";
+import { randomStr } from "@iceywu/utils/shared";
 
-const [error, result] = await to(fetch("https://example.com"));
-
-if (!error && isString(result)) {
-  console.log(result);
+const [err, res] = await to(fetch("https://example.com"));
+if (!err && isString(res)) {
+  const copy = deepClone({ res });
+  set(copy, ["meta", "id"], randomStr(8));
+  console.log(get(copy, ["meta", "id"]));
+  console.log(diff([1, 2, 3], [2]));
 }
-
-console.log(getRandom(1, 3));
-console.log(diff([1, 2, 3], [2]));
 ```

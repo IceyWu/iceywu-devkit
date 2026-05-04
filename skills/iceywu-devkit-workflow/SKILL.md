@@ -1,37 +1,31 @@
 ---
 name: iceywu-devkit-workflow
-description: IceyWu monorepo workflow, workspace layout, package boundaries, skill repository conventions, and migration rules. Use when making repository-structure or release-flow decisions across the workspace.
+description: IceyWu monorepo workflow — pnpm workspace layout, package boundaries, skill repository conventions, day-to-day validation commands, and Changesets-based release flow. Use when making repository-structure decisions, running workspace-wide checks, or coordinating a release.
 metadata:
-	author: IceyWu
-	version: "2026.3.12"
-	source: Derived from docs/architecture.md, README.md, and the current pnpm workspace layout
+  author: IceyWu
+  version: "2026.5.4"
+  source: Derived from docs/architecture.md, README.md, .github/workflows/release.yml, and the current pnpm workspace layout
 ---
 
 # IceyWu DevKit Workflow
 
-> Use this skill when the task involves workspace layout, pnpm package boundaries, local linking, release flow, or migration from legacy repositories.
+> Use this skill when the task spans more than one package — workspace layout, cross-package validation, or shipping a release.
 
 ## Preferences
 
-- Treat packages/utils and packages/cli as the only publishable packages
-- Keep skills as repository content instead of an npm package
-- Align local package dependencies with workspace:\*
-- Keep the repository compatible with Agent Skills conventions
-- Treat legacy layouts as references only unless they directly improve the current model
+- Treat `packages/utils` and `packages/cli` as the only publishable packages.
+- Keep `skills/` as repository content, never a workspace package.
+- Align local package dependencies with `workspace:*`.
+- Keep the repository compatible with Agent Skills conventions (root-level `skills/` folder, each skill self-contained).
+- Make small, reviewable changes. Validate the narrowest affected scope first, then escalate to repository-wide checks before release.
 
 ## Core
 
-| Topic                    | Description                                                                       | Reference                                                  |
-| ------------------------ | --------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Workspace Layout         | Package boundaries, skill layout, and what belongs in packages, skills, and tools | [workspace-layout](references/workspace-layout.md)         |
-| Migration And Validation | Current verified state, migration phases, and repository-wide commands            | [migration-validation](references/migration-validation.md) |
-
-## Features
-
-| Topic                   | Description                                                                 | Reference                                                  |
-| ----------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Agent Skills Convention | Root-level skills directory and independently installable skill directories | [workspace-layout](references/workspace-layout.md)         |
-| Repository Commands     | Install, build, check, test, and validate commands                          | [migration-validation](references/migration-validation.md) |
+| Topic | Description | Reference |
+| --- | --- | --- |
+| Workspace Layout | Package boundaries, skills placement, and repository structure decisions | [workspace-layout](./references/workspace-layout.md) |
+| Release Flow | Changesets, version bumping, CI publishing, breaking-change discipline | [release-flow](./references/release-flow.md) |
+| Migration And Validation | Verified state, workspace commands, and what not to preserve from legacy | [migration-validation](./references/migration-validation.md) |
 
 ## Quick Reference
 
@@ -39,25 +33,37 @@ metadata:
 
 ```bash
 pnpm install
-pnpm build
-pnpm check
-pnpm test
-pnpm validate:skills
+pnpm build              # builds all @iceywu/* packages
+pnpm check              # typecheck + publint + verify-exports
+pnpm test               # vitest in all packages
+pnpm validate:skills    # strict SKILL.md + frontmatter validation
 ```
 
 ### Decision Rules
 
 ```text
-1. New publishable code belongs under packages.
+1. New publishable code belongs under packages/.
 2. Agent instructions belong under skills/<skill-name>/SKILL.md.
-3. Internal tooling that is not part of a skill belongs under tools or another non-skill area.
-4. Do not recreate old repository layout unless it improves the current workspace model.
+3. Internal tooling that is not part of a skill belongs under tools/ or internal/.
+4. Do not recreate the legacy repository layout unless it improves the current workspace model.
+5. A breaking change to either published package requires a changeset with a migration table.
 ```
 
 ### Current State
 
 ```text
-packages/utils has been migrated and validated.
-packages/cli has been migrated and validated.
-skills already matches the installable Agent Skills directory convention.
+packages/utils — migrated, zero runtime deps, stable subpath surface
+packages/cli   — migrated, TypeScript, @clack/prompts + execa
+skills/        — agentskills.io compatible, strict validator in tools/validate-skills.mjs
+CI             — .github/workflows/release.yml via changesets/action@v1
+```
+
+### Development Loop
+
+```text
+1. Make a focused change inside one package.
+2. Run package-local validation first: pnpm --filter <pkg> typecheck && test.
+3. Before pushing or opening a PR, run repository-wide: pnpm check && pnpm test.
+4. If the change ships to npm, author a changeset: pnpm changeset.
+5. Keep release blockers visible; fix root causes rather than bypassing checks.
 ```

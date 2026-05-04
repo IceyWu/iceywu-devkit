@@ -4,25 +4,21 @@ This repository follows the Agent Skills layout.
 
 ## Available Skills
 
-- `frontend-dev-tools`
-- `frontend-docs-context7`
-- `iceywu-dev-workflow`
-- `iceywu-utils`
-- `iceywu-cli`
-- `iceywu-devkit-workflow`
-- `pnpm`
-- `vite`
-- `vue`
-- `web-design-guidelines`
+- `iceywu-utils` — `@iceywu/utils` design, public API, dependency policy
+- `iceywu-cli` — `@iceywu/cli` command design, package structure, terminal UX
+- `iceywu-devkit-workflow` — monorepo layout, validation commands, release flow
+- `vue` — Vue 3 Composition API reference, synced from upstream
 
 ## Repository Layout
 
-- `skills/` contains installable skills
-- `packages/` contains product code managed by pnpm workspace
-- `docs/` contains design notes and migration guidance
-- `internal/skills-maintenance/` contains metadata, source/vendor sync definitions, and maintenance scripts for the migrated skills repository design
+- `skills/` — installable Agent Skills (validated against `agentskills.io` via `pnpm validate:skills`)
+- `packages/` — publishable product code managed by the pnpm workspace
+- `apps/` — internal applications (e.g. the utils playground) that are not published
+- `docs/` — design notes and migration guidance
+- `tools/` — repo-level scripts (validation, etc.)
+- `internal/skills-maintenance/` — upstream sync configuration and scripts for skills that mirror external sources (e.g. `vue`)
 
-This repository now includes both devkit-specific skills and the shared frontend skills migrated from the legacy workspace root.
+Each skill is self-contained and follows the [Agent Skills specification](https://agentskills.io/specification): a `SKILL.md` with YAML frontmatter, optional `references/`, optional `scripts/`, optional `assets/`.
 
 ## Usage
 

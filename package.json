@@ -24,7 +24,8 @@
     "version-packages": "changeset version",
     "check": "pnpm run validate:skills && pnpm run validate:playground-demos && pnpm run typecheck && pnpm -r --if-present --filter \"@iceywu/*\" run check:package",
     "validate:skills": "node ./tools/validate-skills.mjs",
-    "validate:playground-demos": "pnpm --filter devkit-playground run check:demos"
+    "validate:playground-demos": "pnpm --filter devkit-playground run check:demos",
+    "sync:skills": "node ./internal/skills-maintenance/sync.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.4.14",
