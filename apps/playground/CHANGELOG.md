@@ -1,5 +1,12 @@
 # devkit-playground
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [9af0ac4]
+  - @iceywu/utils@0.1.0
+
 ## 0.0.2
 
 ### Patch Changes
