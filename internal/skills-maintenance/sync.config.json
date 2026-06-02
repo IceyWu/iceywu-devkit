@@ -3,10 +3,10 @@
   "skills": [
     {
       "skill": "vue",
-      "repo": "https://github.com/IceyWu/skills.git",
+      "repo": "https://github.com/IceyWu/iceywu-devkit.git",
       "ref": "main",
       "sourcePath": "skills/vue",
-      "lockedSha": "dfba28c608b12e210ee8bb33451279d283294097"
+      "lockedSha": "e3fe7797e8eef8c18386449b9e6ebe92fee3ecd8"
     }
   ]
 }
