@@ -13,6 +13,7 @@ This repository follows the Agent Skills layout.
 | `pnpm` | workspace filtering, lockfile hygiene, command orchestration |
 | `vite` | dev server behavior, build config, plugin troubleshooting |
 | `vue` | Vue 3 Composition API reference, synced from upstream |
+| `openapi-lookup` | query OpenAPI/Swagger endpoint definitions (params & responses) |
 
 ## Repository Layout
 

@@ -3,3 +3,6 @@ dist
 .turbo
 .DS_Store
 coverage
+.openapi-lookup.cache.json
+.api-docs.cache.json
+skills/openapi-lookup/config.json
