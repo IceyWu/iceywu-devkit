@@ -75,6 +75,19 @@ Install one skill:
 npx skills add IceyWu/iceywu-devkit --skill design-md
 ```
 
+Available skills:
+
+| Skill | Focus |
+| --- | --- |
+| `iceywu-utils` | `@iceywu/utils` design, public API, dependency policy |
+| `iceywu-cli` | `@iceywu/cli` command design, package structure, terminal UX |
+| `iceywu-devkit-workflow` | monorepo layout, validation commands, release flow |
+| `design-md` | apply DESIGN.md styles from awesome-design-md for consistent UI generation |
+| `pnpm` | workspace filtering, lockfile hygiene, command orchestration |
+| `vite` | dev server behavior, build config, plugin troubleshooting |
+| `vue` | Vue 3 Composition API reference, synced from upstream |
+| `openapi-lookup` | query OpenAPI/Swagger endpoint definitions (params & responses) |
+
 Use in prompts by naming the skill explicitly:
 
 ```text
@@ -83,3 +96,18 @@ create DESIGN.md in project root, and build the page strictly following DESIGN.m
 ```
 
 See [AGENTS.md](AGENTS.md) for the full skill catalog.
+
+## Update Skills
+
+When new versions are released, update installed skills:
+
+```bash
+# Update all installed skills
+npx skills update
+
+# Update a specific skill
+npx skills update openapi-lookup
+
+# Check for available updates
+npx skills check
+```

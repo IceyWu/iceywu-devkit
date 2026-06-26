@@ -93,3 +93,18 @@ node skills/openapi-lookup/scripts/query-api.mjs /api/user/enable --method post
 - 脚本每次都会尝试拉取最新文档,失败时回退到本地缓存并打印 `[warn]`。
 - 文档若是内网地址,需保证本机能访问对应 host:port。
 - 拿到接口定义后,前端 API 封装请遵循当前项目现有的写法与约定。
+
+## 更新技能
+
+当本技能有新版本发布时，可通过以下命令更新：
+
+```bash
+# 更新全部已安装技能
+npx skills update
+
+# 只更新本技能
+npx skills update openapi-lookup
+
+# 检查是否有可用更新
+npx skills check
+```

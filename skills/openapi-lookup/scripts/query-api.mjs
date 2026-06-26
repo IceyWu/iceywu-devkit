@@ -51,40 +51,38 @@ if (!keyword && !flags.list) {
   process.exit(1);
 }
 
-// ---------- 解析文档来源 ----------
-function resolveDocsUrl() {
-  if (flags.url) return flags.url;
-  if (process.env.API_DOCS_URL) return process.env.API_DOCS_URL;
+// ---------- 解析配置(仅读取一次) ----------
+function loadConfig() {
+  let cfg = {};
   if (fs.existsSync(CONFIG_FILE)) {
     try {
-      const cfg = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
-      if (cfg.docsUrl) return cfg.docsUrl;
+      cfg = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
     } catch {
       // 忽略损坏的配置
     }
   }
-  return null;
+  return cfg;
 }
 
-function resolveAuth() {
-  if (fs.existsSync(CONFIG_FILE)) {
-    try {
-      const cfg = JSON.parse(fs.readFileSync(CONFIG_FILE, "utf8"));
-      if (cfg.username && cfg.password) {
-        const encoded = Buffer.from(`${cfg.username}:${cfg.password}`).toString(
-          "base64"
-        );
-        return `Basic ${encoded}`;
-      }
-    } catch {
-      // 忽略
-    }
+function resolveDocsUrl(cfg) {
+  if (flags.url) return flags.url;
+  if (process.env.API_DOCS_URL) return process.env.API_DOCS_URL;
+  return cfg.docsUrl || null;
+}
+
+function resolveAuth(cfg) {
+  if (cfg.username && cfg.password) {
+    const encoded = Buffer.from(`${cfg.username}:${cfg.password}`).toString(
+      "base64"
+    );
+    return `Basic ${encoded}`;
   }
   return null;
 }
 
-const DOCS_URL = resolveDocsUrl();
-const AUTH_HEADER = resolveAuth();
+const CONFIG = loadConfig();
+const DOCS_URL = resolveDocsUrl(CONFIG);
+const AUTH_HEADER = resolveAuth(CONFIG);
 
 // ---------- 拉取文档 ----------
 async function loadDocs() {
@@ -148,12 +146,12 @@ function resolveRef(ref, doc) {
 function expand(schema, doc, seen = new Set(), depth = 0) {
   if (!schema || depth > 12) return schema;
   if (schema.$ref) {
-    const name = schema.$ref.split("/").pop();
-    if (seen.has(name)) return { $circularRef: name };
-    seen.add(name);
+    // 用完整 $ref 路径去重,避免同名不同路径误判
+    if (seen.has(schema.$ref)) return { $circularRef: schema.$ref };
+    seen.add(schema.$ref);
     const resolved = resolveRef(schema.$ref, doc);
     const out = expand(resolved, doc, seen, depth + 1);
-    seen.delete(name);
+    seen.delete(schema.$ref);
     return out;
   }
   if (schema.type === "array" && schema.items) {
@@ -166,11 +164,27 @@ function expand(schema, doc, seen = new Set(), depth = 0) {
     }
     return { ...schema, properties: props };
   }
-  if (schema.allOf) {
+  if (
+    schema.additionalProperties &&
+    typeof schema.additionalProperties === "object"
+  ) {
     return {
       ...schema,
-      allOf: schema.allOf.map((s) => expand(s, doc, seen, depth + 1)),
+      additionalProperties: expand(
+        schema.additionalProperties,
+        doc,
+        seen,
+        depth + 1
+      ),
     };
+  }
+  for (const key of ["allOf", "oneOf", "anyOf"]) {
+    if (schema[key]) {
+      return {
+        ...schema,
+        [key]: schema[key].map((s) => expand(s, doc, seen, depth + 1)),
+      };
+    }
   }
   return schema;
 }
@@ -214,8 +228,6 @@ function renderEndpoint(ep, doc) {
   const { path: p, method, op } = ep;
   const lines = [];
   lines.push(`${method.toUpperCase()} ${p}`);
-  if (p.includes("/page"))
-    lines.push("⚠️ 此为分页接口，不可用于下拉/select 选择器");
   if (op.summary) lines.push(`摘要: ${op.summary}`);
   if (op.description) lines.push(`说明: ${op.description}`);
   if (op.tags?.length) lines.push(`标签: ${op.tags.join(", ")}`);
@@ -284,16 +296,10 @@ if (matches.length === 0) {
 if (flags.list) {
   console.log(`匹配到 ${matches.length} 个接口${fresh ? "" : " (缓存)"}:`);
   for (const m of matches) {
-    const pageWarn = m.path.includes("/page") ? " ⚠️分页接口" : "";
     console.log(
-      `  ${m.method.toUpperCase().padEnd(6)} ${m.path}  ${m.op.summary || ""}${pageWarn}`
+      `  ${m.method.toUpperCase().padEnd(6)} ${m.path}  ${m.op.summary || ""}`
     );
   }
-  const pageCount = matches.filter((m) => m.path.includes("/page")).length;
-  if (pageCount)
-    console.log(
-      `\n⚠️ 其中 ${pageCount} 个为分页接口(标记 ⚠️)，不可用于下拉选择器。`
-    );
   process.exit(0);
 }
 

@@ -86,12 +86,28 @@ npx skills add IceyWu/iceywu-devkit --skill design-md
 | `pnpm` | workspace 过滤、锁文件问题、脚本编排 |
 | `vite` | dev server、构建配置、插件排障 |
 | `vue` | Vue 3 Composition API 与 script setup 参考 |
+| `openapi-lookup` | 查询 OpenAPI/Swagger 接口定义，用于对接后端接口（参数与响应） |
 
 在提示词里显式点名技能即可：
 
 ```text
-Use the design-md skill. Pick one template from skills/design-md/references/style-shortlist.md,
-create DESIGN.md in project root, and build the page strictly following DESIGN.md.
+使用 design-md 技能。从 skills/design-md/references/style-shortlist.md 中挑选一个模板，
+在项目根目录创建 DESIGN.md，并严格遵循 DESIGN.md 构建页面。
 ```
 
 完整技能目录见 [AGENTS.md](AGENTS.md)。
+
+## 更新技能
+
+当有新版本发布时，可通过以下命令更新：
+
+```bash
+# 更新全部已安装技能
+npx skills update
+
+# 只更新某个技能
+npx skills update openapi-lookup
+
+# 检查是否有可用更新
+npx skills check
+```

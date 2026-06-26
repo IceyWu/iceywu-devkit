@@ -74,3 +74,8 @@ Use the design-md skill and build this page from a single DESIGN.md style refere
 ```text
 Use the iceywu-devkit-workflow skill and give me the correct validate/release command order for this repo.
 ```
+
+```text
+Use the openapi-lookup skill. The backend docs URL is http://localhost:8080/v3/api-docs.
+Query the /api/user/list endpoint and show me the request params and response structure.
+```
