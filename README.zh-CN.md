@@ -82,6 +82,7 @@ npx skills add IceyWu/iceywu-devkit --skill design-md
 | `iceywu-utils` | utils API 设计、导出边界、依赖策略 |
 | `iceywu-cli` | CLI 命令设计、包结构、终端交互体验 |
 | `iceywu-devkit-workflow` | monorepo 开发流程、校验与发布顺序 |
+| `logo-generation` | 纯 HTML + SVG 快速设计 Logo——发散、对比、迭代、导出 |
 | `design-md` | 基于 DESIGN.md 的统一 UI 风格生成 |
 | `pnpm` | workspace 过滤、锁文件问题、脚本编排 |
 | `vite` | dev server、构建配置、插件排障 |

@@ -82,6 +82,7 @@ Available skills:
 | `iceywu-utils` | `@iceywu/utils` design, public API, dependency policy |
 | `iceywu-cli` | `@iceywu/cli` command design, package structure, terminal UX |
 | `iceywu-devkit-workflow` | monorepo layout, validation commands, release flow |
+| `logo-generation` | rapid logo design with pure HTML + SVG — ideation, comparison, iteration, and export |
 | `design-md` | apply DESIGN.md styles from awesome-design-md for consistent UI generation |
 | `pnpm` | workspace filtering, lockfile hygiene, command orchestration |
 | `vite` | dev server behavior, build config, plugin troubleshooting |
