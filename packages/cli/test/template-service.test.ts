@@ -22,7 +22,7 @@ describe("template-service", () => {
     },
     {
       name: "utils",
-      clone_url: "https://github.com/IceyWu/utils.git",
+      clone_url: "https://github.com/IceyWu/iceywu-devkit.git",
       description: "library repo",
       topics: ["utils"],
       private: false,
