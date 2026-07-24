@@ -1,34 +1,44 @@
 # @iceywu/cli
 
-TypeScript CLI package for project scaffolding and template discovery.
+[![npm version](https://img.shields.io/npm/v/@iceywu/cli?color=ec4899&label=)](https://www.npmjs.com/package/@iceywu/cli)
+[![downloads](https://img.shields.io/npm/dm/@iceywu/cli?color=gray)](https://www.npmjs.com/package/@iceywu/cli)
 
-The legacy `icey-cli` source has been re-architected in this workspace package.
+TypeScript CLI for project scaffolding and template discovery.
 
-Current package goals:
+## Installation
 
-- keep `@iceywu/utils` as a local workspace dependency
-- publish the scoped package while preserving `icey` and `icey-cli` command aliases
-- use TypeScript for command, service, and prompt boundaries
-- use `@clack/prompts` for interaction and `execa` for subprocess execution
-- keep the current command behavior stable while improving maintainability
-- keep the source tree fully in TypeScript and fetch template data dynamically
+```bash
+pnpm dlx @iceywu/cli create my-app
+```
 
-Template discovery now uses this priority order:
+Or install globally:
 
-- GitHub API
-- mirror APIs from `ICEY_CLI_TEMPLATE_API_MIRRORS` (comma-separated URLs, supports `名称=URL`)
-- local runtime cache written after a successful fetch
+```bash
+pnpm add -g @iceywu/cli
+icey create my-app
+```
 
-Optional runtime configuration:
+## Template Discovery
 
-- `ICEY_CLI_TEMPLATE_API_MIRRORS=杭州镜像=https://mirror-a.example.com/repos,备用镜像=https://mirror-b.example.com/repos`
-- `ICEY_CLI_TEMPLATE_CACHE_TTL_MS=43200000` to control cache expiration in milliseconds
+Templates are resolved in priority order:
+
+1. **GitHub API** — primary source
+2. **Mirror APIs** — fallback via `ICEY_CLI_TEMPLATE_API_MIRRORS`（supports `名称=URL`）
+3. **Local cache** — runtime cache from last successful fetch
+
+Optional config:
+
+- `ICEY_CLI_TEMPLATE_API_MIRRORS` — comma-separated mirror URLs
+- `ICEY_CLI_TEMPLATE_CACHE_TTL_MS` — cache TTL in ms（default: 12h）
 
 ## Structure
 
-- `src/app.ts`: CLI composition and command registration
-- `src/commands/*`: user-facing command handlers
-- `src/services/*`: GitHub, git, filesystem, and npm interactions
-- `src/ui/*`: prompt wrappers and terminal feedback
-- `src/lib/*`: validation, formatting, package metadata, and errors
-- `src/types/*`: shared TypeScript models
+```
+src/
+├── app.ts          CLI composition & command registration
+├── commands/       user-facing command handlers
+├── services/       GitHub, git, filesystem, npm interactions
+├── ui/             prompt wrappers & terminal feedback
+├── lib/            validation, formatting, package metadata, errors
+└── types/          shared TypeScript models
+```

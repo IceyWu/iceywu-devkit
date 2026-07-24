@@ -1,6 +1,6 @@
 # @iceywu/utils
 
-[![NPM version](https://img.shields.io/npm/v/@iceywu/utils?color=a1b858&label=)](https://www.npmjs.com/package/@iceywu/utils)
+[![NPM version](https://img.shields.io/npm/v/@iceywu/utils?color=ec4899&label=)](https://www.npmjs.com/package/@iceywu/utils)
 [![Docs](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@iceywu/utils)
 
 A public TypeScript utility library with curated root exports and explicit module subpaths. Zero runtime dependencies.

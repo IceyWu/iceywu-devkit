@@ -1,11 +1,14 @@
 # IceyWu Agent Skills
 
+[![skills.sh](https://skills.sh/b/iceywu/iceywu-devkit)](https://skills.sh/iceywu/iceywu-devkit)
+
 This repository follows the Agent Skills layout.
 
 ## Available Skills
 
 | Skill | Focus |
 | --- | --- |
+| `openapi-lookup` | query OpenAPI/Swagger endpoint definitions (params & responses) |
 | `iceywu-utils` | `@iceywu/utils` design, public API, dependency policy |
 | `iceywu-cli` | `@iceywu/cli` command design, package structure, terminal UX |
 | `iceywu-devkit-workflow` | monorepo layout, validation commands, release flow |
@@ -14,7 +17,6 @@ This repository follows the Agent Skills layout.
 | `pnpm` | workspace filtering, lockfile hygiene, command orchestration |
 | `vite` | dev server behavior, build config, plugin troubleshooting |
 | `vue` | Vue 3 Composition API reference, synced from upstream |
-| `openapi-lookup` | query OpenAPI/Swagger endpoint definitions (params & responses) |
 
 ## Repository Layout
 

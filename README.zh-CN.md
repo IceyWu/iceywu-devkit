@@ -1,102 +1,96 @@
-# IceyWu DevKit 中文说明
+# 🧰 IceyWu DevKit
+
+> TypeScript 工具库 · CLI 脚手架 · Agent 技能集合
 
 [English README](README.md)
 
-IceyWu DevKit 是一个基于 pnpm 的 monorepo，目标只有两个：
+<p align="center">
+  <a href="https://www.npmjs.com/package/@iceywu/utils"><img src="https://img.shields.io/npm/v/@iceywu/utils?color=ec4899&label=utils" /></a>
+  <a href="https://www.npmjs.com/package/@iceywu/cli"><img src="https://img.shields.io/npm/v/@iceywu/cli?color=ec4899&label=cli" /></a>
+  <a href="https://skills.sh/iceywu/iceywu-devkit"><img src="https://skills.sh/b/iceywu/iceywu-devkit" /></a>
+</p>
 
-- 发布产品包
-- 提供可安装的 Agent Skills
+---
 
-Playground 线上地址：<https://iceywu-devkit.netlify.app/>
+## 📦 包
 
-## 仓库结构
+### [@iceywu/utils](packages/utils/README.md)
 
-| 模块 | 作用 | 路径 |
-| --- | --- | --- |
-| Utils 包 | TypeScript 通用工具库 | `packages/utils` |
-| CLI 包 | 项目脚手架命令行工具 | `packages/cli` |
-| Playground | 工具函数交互演示 | `apps/playground` |
-| Agent Skills | 可安装技能内容 | `skills` |
-| Skill 同步基础设施 | 上游镜像同步脚本与配置 | `internal/skills-maintenance` |
+[![npm version](https://img.shields.io/npm/v/@iceywu/utils?color=ec4899&label=)](https://www.npmjs.com/package/@iceywu/utils)
+[![downloads](https://img.shields.io/npm/dm/@iceywu/utils?color=gray)](https://www.npmjs.com/package/@iceywu/utils)
 
-## 包的安装与使用
-
-### @iceywu/utils
-
-安装：
+零依赖 TypeScript 工具库 — `to()` / `pick()` / `diff()` 等常用函数。
 
 ```bash
 pnpm add @iceywu/utils
-# 或 npm install @iceywu/utils
 ```
-
-使用：
 
 ```ts
-import { to } from "@iceywu/utils";
-import { diff } from "@iceywu/utils/array";
+import { to } from '@iceywu/utils'
+import { diff } from '@iceywu/utils/array'
 
-const [error, response] = await to(fetch("https://example.com"));
-if (!error && response) {
-  console.log(response.url);
-}
-
-console.log(diff([1, 2, 3], [2]));
+const [err, res] = await to(fetch('https://example.com'))
+console.log(diff([1, 2, 3], [2])) // [1, 3]
 ```
 
-### @iceywu/cli
+→ [API 文档](https://www.jsdocs.io/package/@iceywu/utils) · [包说明](packages/utils/README.md)
 
-无需全局安装：
+### [@iceywu/cli](packages/cli/README.md)
+
+[![npm version](https://img.shields.io/npm/v/@iceywu/cli?color=ec4899&label=)](https://www.npmjs.com/package/@iceywu/cli)
+[![downloads](https://img.shields.io/npm/dm/@iceywu/cli?color=gray)](https://www.npmjs.com/package/@iceywu/cli)
+
+项目脚手架 CLI，交互式选择模板快速搭建项目。
 
 ```bash
-pnpm dlx @iceywu/cli ls
 pnpm dlx @iceywu/cli create my-app
 ```
 
-可选全局安装：
+→ [包说明](packages/cli/README.md)
+
+---
+
+## 🤖 Agent Skills
+
+[![skills.sh](https://skills.sh/b/iceywu/iceywu-devkit)](https://skills.sh/iceywu/iceywu-devkit)
+
+可安装的 Agent 技能，让 AI 编程助手更懂这个生态。
 
 ```bash
-pnpm add -g @iceywu/cli
-icey ls
-icey create my-app
+npx skills add IceyWu/iceywu-devkit -a github-copilot --copy -y
 ```
 
-## 如何使用本仓库 Skills
-
-安装全部技能：
-
-```bash
-npx skills add IceyWu/iceywu-devkit --skill='*'
-```
-
-只安装单个技能：
-
-```bash
-npx skills add IceyWu/iceywu-devkit --skill design-md
-```
-
-可用技能：
-
-| Skill | 适用场景 |
+| Skill | 教 AI 学会… |
 | --- | --- |
-| `iceywu-utils` | utils API 设计、导出边界、依赖策略 |
-| `iceywu-cli` | CLI 命令设计、包结构、终端交互体验 |
-| `iceywu-devkit-workflow` | monorepo 开发流程、校验与发布顺序 |
-| `logo-generation` | 纯 HTML + SVG 快速设计 Logo——发散、对比、迭代、导出 |
-| `design-md` | 基于 DESIGN.md 的统一 UI 风格生成 |
-| `pnpm` | workspace 过滤、锁文件问题、脚本编排 |
-| `vite` | dev server、构建配置、插件排障 |
-| `vue` | Vue 3 Composition API 与 script setup 参考 |
-| `openapi-lookup` | 查询 OpenAPI/Swagger 接口定义，用于对接后端接口（参数与响应） |
+| `openapi-lookup` | 查询 OpenAPI/Swagger 接口定义 |
+| `iceywu-utils` | 使用 `@iceywu/utils` API 并遵循依赖规则 |
+| `iceywu-cli` | 设计 CLI 命令和包结构 |
+| `iceywu-devkit-workflow` | 在 monorepo 中校验、构建和发布 |
+| `design-md` | 基于 DESIGN.md 风格模板统一生成 UI |
+| `logo-generation` | 纯 HTML + SVG 快速原型 Logo |
+| `pnpm` | workspace 过滤、锁文件管理、命令编排 |
+| `vite` | 配置开发服务器、构建和插件排障 |
+| `vue` | 编写地道的 Vue 3 Composition API 代码 |
 
-在提示词里显式点名技能即可：
+→ [完整目录](AGENTS.md) · [排行榜](https://skills.sh/iceywu/iceywu-devkit)
 
-```text
-使用 design-md 技能。从 skills/design-md/references/style-shortlist.md 中挑选一个模板，
-在项目根目录创建 DESIGN.md，并严格遵循 DESIGN.md 构建页面。
+---
+
+## 📂 结构
+
+```
+iceywu-devkit/
+├── packages/
+│   ├── utils/          @iceywu/utils  →  TypeScript 工具库
+│   └── cli/            @iceywu/cli    →  项目脚手架
+├── apps/playground/    交互演示站点
+├── skills/             ×9 Agent 技能
+└── internal/           同步基础设施与工具
 ```
 
-完整技能目录见 [AGENTS.md](AGENTS.md)。
+---
+
+🧪 Playground：[iceywu-devkit.netlify.app](https://iceywu-devkit.netlify.app/)
 
 ## 更新技能
 
