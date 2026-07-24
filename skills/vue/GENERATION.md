@@ -1,5 +1,5 @@
 # Generation Info
 
-- **Source:** https://github.com/IceyWu/iceywu-devkit.git/tree/99290d0fff6612e2b3b8421cf2b9362c03e2a1a5/skills/vue
-- **Git SHA:** `99290d0fff6612e2b3b8421cf2b9362c03e2a1a5`
-- **Generated:** 2026-06-29
+- **Source:** https://github.com/IceyWu/iceywu-devkit.git/tree/1216da4862d38d7eeb553caacb731d10bdc14450/skills/vue
+- **Git SHA:** `1216da4862d38d7eeb553caacb731d10bdc14450`
+- **Generated:** 2026-07-13
