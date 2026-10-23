@@ -14,6 +14,7 @@ This repository follows the Agent Skills layout.
 | `iceywu-devkit-workflow` | monorepo layout, validation commands, release flow |
 | `logo-generation` | rapid logo design with pure HTML + SVG — ideation, comparison, iteration, and export |
 | `design-md` | apply DESIGN.md styles from awesome-design-md for consistent UI generation |
+| `silken` | build frosted glass panels with theme-relative control fills, geometry and interaction recipes |
 | `pnpm` | workspace filtering, lockfile hygiene, command orchestration |
 | `vite` | dev server behavior, build config, plugin troubleshooting |
 | `vue` | Vue 3 Composition API reference, synced from upstream |

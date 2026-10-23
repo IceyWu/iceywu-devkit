@@ -67,6 +67,7 @@ npx skills add IceyWu/iceywu-devkit -a github-copilot --copy -y
 | `iceywu-cli` | design CLI commands and structure packages |
 | `iceywu-devkit-workflow` | validate, build, and release in this monorepo |
 | `design-md` | generate consistent UIs from DESIGN.md style references |
+| `silken` | build frosted glass panels with theme-relative control fills, geometry and interaction recipes |
 | `logo-generation` | rapidly prototype logos with pure HTML + SVG |
 | `pnpm` | filter workspaces, manage lockfiles, orchestrate commands |
 | `vite` | configure dev servers, builds, and troubleshoot plugins |
@@ -84,7 +85,7 @@ iceywu-devkit/
 │   ├── utils/          @iceywu/utils  →  TypeScript utilities
 │   └── cli/            @iceywu/cli    →  scaffolding CLI
 ├── apps/playground/    interactive demo site
-├── skills/             ×9 Agent Skills
+├── skills/             ×10 Agent Skills
 └── internal/           sync infra & tooling
 ```
 

@@ -67,6 +67,7 @@ npx skills add IceyWu/iceywu-devkit -a github-copilot --copy -y
 | `iceywu-cli` | 设计 CLI 命令和包结构 |
 | `iceywu-devkit-workflow` | 在 monorepo 中校验、构建和发布 |
 | `design-md` | 基于 DESIGN.md 风格模板统一生成 UI |
+| `silken` | 设计磨砂玻璃面板、随主题透色的控件及对应的尺寸与交互 |
 | `logo-generation` | 纯 HTML + SVG 快速原型 Logo |
 | `pnpm` | workspace 过滤、锁文件管理、命令编排 |
 | `vite` | 配置开发服务器、构建和插件排障 |
@@ -84,7 +85,7 @@ iceywu-devkit/
 │   ├── utils/          @iceywu/utils  →  TypeScript 工具库
 │   └── cli/            @iceywu/cli    →  项目脚手架
 ├── apps/playground/    交互演示站点
-├── skills/             ×9 Agent 技能
+├── skills/             ×10 Agent 技能
 └── internal/           同步基础设施与工具
 ```
 
